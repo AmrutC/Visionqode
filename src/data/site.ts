@@ -24,7 +24,7 @@ export const site = {
     { label: 'X', href: '', needsApproval: true },
   ],
   founded: { value: '', needsApproval: true },
-  themeColor: '#071428',
+  themeColor: "#242C54",
 };
 
 export const nav = [

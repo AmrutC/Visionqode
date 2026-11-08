@@ -7,7 +7,7 @@ const { title, lede, crumbs = [], eyebrow, theme = 'light' } = Astro.props;
   <div class="container page-head__inner">
     {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
     <div class="page-head__text">
-      {eyebrow && <p class="heading-s text-muted">{eyebrow}</p>}
+      {eyebrow && <p class="eyebrow dot-blue">{eyebrow}</p>}
       <h1 class="display-xl page-head__title">{title}</h1>
       {lede && <p class="body-l text-secondary measure">{lede}</p>}
     </div>
@@ -15,7 +15,7 @@ const { title, lede, crumbs = [], eyebrow, theme = 'light' } = Astro.props;
   </div>
 </section>
 <style>
-  .page-head { background: var(--bg-page); color: var(--text-primary); padding-block: clamp(40px, 5vw, 64px) clamp(48px, 6vw, 80px); }
+  .page-head { background: linear-gradient(180deg, var(--blue-50) 0%, var(--white) 100%); color: var(--text-primary); padding-block: clamp(40px, 5vw, 64px) clamp(48px, 6vw, 80px); }
   .page-head__inner { display: grid; gap: var(--space-6); }
   .page-head__text { display: grid; gap: var(--space-5); }
   .page-head__title { max-width: 18em; animation: rise 800ms var(--ease-out) both; }

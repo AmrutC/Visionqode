@@ -5,8 +5,9 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 <header class="nav" data-nav>
+  <span class="nav__progress" data-progress aria-hidden="true"></span>
   <div class="container nav__inner">
-    <a href="/" class="nav__brand" aria-label="Visionqode — home"><Logo /><span class="heading-s">Visionqode</span></a>
+    <a href="/" class="nav__brand" aria-label="Visionqode — home"><Logo size={30} /></a>
     <nav aria-label="Primary" class="nav__links" id="primary-nav">
       <ul role="list">
         {nav.map((item) => (
@@ -27,8 +28,9 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 </header>
 
 <style>
-  .nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--fog-100) 88%, transparent); backdrop-filter: saturate(140%) blur(10px); -webkit-backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid transparent; transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
-  .nav.is-scrolled { border-bottom-color: var(--border-default); }
+  .nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--white) 86%, transparent); backdrop-filter: saturate(140%) blur(10px); -webkit-backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid transparent; transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+  .nav.is-scrolled { border-bottom-color: var(--border-default); box-shadow: 0 10px 30px -24px rgba(22,26,51,.35); }
+  .nav__progress { position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: linear-gradient(90deg, var(--blue-600), var(--gold-600)); transform: scaleX(0); transform-origin: left; pointer-events: none; }
   .nav__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); min-height: 76px; }
   .nav__brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text-primary); }
   .nav__links ul { display: flex; gap: var(--space-6); }
@@ -45,10 +47,10 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     .nav__toggle { display: block; }
     .nav__desktop-only { display: none; }
     .nav__mobile-only { display: block; }
-    .nav__links { position: fixed; inset: 76px 0 0 0; background: var(--fog-100); padding: var(--space-6) var(--gutter) var(--space-8); display: flex; flex-direction: column; justify-content: space-between; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); overflow: auto; }
+    .nav__links { position: fixed; inset: 76px 0 0 0; background: var(--white); padding: var(--space-6) var(--gutter) var(--space-8); display: flex; flex-direction: column; justify-content: space-between; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); overflow: auto; }
     .nav__links.is-open { opacity: 1; transform: none; pointer-events: auto; }
     .nav__links ul { flex-direction: column; gap: var(--space-4); }
-    .nav__links a.link-draw { font-family: var(--font-display); font-size: var(--text-l); font-weight: 500; letter-spacing: -0.02em; color: var(--text-primary); }
+    .nav__links a.link-draw { font-family: var(--font-display); font-size: var(--text-l); font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
     .nav__links .nav__cta { align-self: flex-start; margin-top: var(--space-6); }
   }
 </style>

@@ -4,6 +4,8 @@ Source for **www.visionqode.com**. Static site built with [Astro](https://astro.
 
 Design source of truth: Figma file **“Visionqode — Website Redesign 2026”** (pages: Foundations, Components, Homepage). Colour, spacing, radius and type tokens in Figma mirror `src/styles/global.css` — change both together.
 
+**Brand:** the existing Visionqode mark (navy V + gold swoosh) was vectorised from the live site into `public/logo-mark.svg` (`#242C54` navy, `#D4AC5C` gold). Base is white + milky white; accents are blue `#0575E6`, green `#34A853`, red `#E53935`, navy and gold — used as gradient words, eyebrow dots, icon tiles and full-bleed bands (`data-theme="navy" | "blue" | "red"`). Type: Plus Jakarta Sans (self-hosted).
+
 ## Commands
 
 ```bash
@@ -20,9 +22,9 @@ node scripts/og.mjs  # regenerate public/og-default.png + apple-touch-icon.png
 src/
   data/        site.ts (verified company facts, nav, process, FAQs) · services.ts · industries.ts
   layouts/     Base.astro — <head>, SEO meta, JSON-LD (Organization, WebSite, BreadcrumbList), nav, footer
-  components/  Nav, Footer, Logo, Schematic (hero diagram), Marquee, Faq, Cta, EnquiryForm, PageHeader, Breadcrumbs
+  components/  Nav, Footer, Logo, Icon (line icon set), KpiBoard (dashboard preview, demo data), Schematic, Marquee, Faq, Cta, EnquiryForm, PageHeader, Breadcrumbs
   pages/       index · services/index · services/[slug] (6 pages) · solutions · industries · work · about · insights · contact · privacy · terms · 404
-  scripts/     motion.ts — reveals, hero draw-in, nav, marquee (no dependencies; respects prefers-reduced-motion)
+  scripts/     motion.ts — reveals, count-up, parallax, magnetic CTA, scroll progress, nav, marquee (no dependencies; respects prefers-reduced-motion)
   styles/      global.css — design tokens + base styles
 public/        robots.txt, favicon.svg, logo.svg, og-default.png, _headers (security + cache headers for Cloudflare/Netlify)
 ```
@@ -65,4 +67,6 @@ Remove `noindex` by deleting the `noindex` prop on the page's `<Base>` and the s
 
 ## Lighthouse (mobile, local build)
 
-Home 99 / 96 / 100 / 100 · Service page 99 / 96 / 100 / 100 · Contact 100 / 97 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 2.1 s on throttled mobile, CLS 0, TBT 60 ms.
+Home 100 / 96 / 100 / 100 · Service page 100 / 96 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.4 s on throttled mobile, CLS 0, TBT 80 ms.
+
+The KPI board on the homepage shows **demo data** (labelled on the board). Replace with real, approved figures or keep as a product preview.

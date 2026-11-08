@@ -6,6 +6,9 @@ import Faq from '../../components/Faq.astro';
 import { services, getService } from '../../data/services';
 import { industries } from '../../data/industries';
 import { site } from '../../data/site';
+import Icon from '../../components/Icon.astro';
+const tones = ['blue', 'green', 'red', 'navy', 'gold'];
+const dIcons = ['doc', 'bolt', 'plug', 'chart'];
 
 export function getStaticPaths() {
   return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
@@ -30,7 +33,7 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
 <Base title={service.title} description={service.metaDescription} breadcrumbs={crumbs} jsonLd={[serviceLd, faqLd]}>
   <PageHeader title={service.h1} lede={service.intro} crumbs={crumbs} eyebrow={service.name} />
 
-  <section class="section section--surface" aria-labelledby="signals-title">
+  <section class="section section--milk" aria-labelledby="signals-title">
     <div class="container two-col">
       <h2 id="signals-title" class="display-l reveal-clip">Sound familiar?</h2>
       <ul role="list" class="signals reveal" data-stagger>
@@ -43,14 +46,14 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
     <div class="container">
       <div class="section-head"><h2 id="deliver-title" class="display-xl reveal-clip">What you get</h2></div>
       <div class="ledger reveal" data-stagger>
-        {service.deliverables.map((d) => (
-          <div class="ledger__row ledger__row--static"><h3 class="heading-m">{d.title}</h3><p class="body-m text-secondary">{d.text}</p><span></span></div>
+        {service.deliverables.map((d, i) => (
+          <div class={`ledger__row ledger__row--static dot-${tones[i % tones.length]}`}><span class={`tile tile--${tones[i % tones.length]}`}><Icon name={dIcons[i % dIcons.length] as any} /></span><h3 class="heading-m">{d.title}</h3><p class="body-m text-secondary">{d.text}</p><span></span></div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section" data-theme="ink" aria-labelledby="how-title">
+  <section class="section band" data-theme="navy" aria-labelledby="how-title">
     <div class="container">
       <div class="section-head section-head--split">
         <h2 id="how-title" class="display-xl reveal-clip">How we work on it</h2>
@@ -58,21 +61,21 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
       </div>
       <ol role="list" class="steps reveal" data-stagger>
         {service.steps.map((s, i) => (
-          <li class="steps__item"><span class="mono text-accent">0{i + 1}</span><h3 class="heading-s">{s.title}</h3><p class="body-s text-secondary">{s.text}</p></li>
+          <li class="steps__item"><span class="steps__num">0{i + 1}</span><h3 class="heading-s">{s.title}</h3><p class="body-s text-secondary">{s.text}</p></li>
         ))}
       </ol>
     </div>
   </section>
 
-  <section class="section section--surface" aria-labelledby="benefits-title">
+  <section class="section" aria-labelledby="benefits-title">
     <div class="container two-col">
       <div>
         <h2 id="benefits-title" class="display-l reveal-clip">What changes for the business</h2>
-        <ul role="list" class="benefits reveal" data-stagger>{service.benefits.map((b) => <li class="body-l">{b}</li>)}</ul>
+        <ul role="list" class="benefits reveal" data-stagger>{service.benefits.map((b) => <li class="body-l"><span class="tile tile--green benefits__tick"><Icon name="check" size={16} /></span>{b}</li>)}</ul>
       </div>
       <div class="tech reveal">
         <h3 class="heading-s text-muted">Technologies we typically use</h3>
-        <ul role="list" class="tech__list label-m">{service.tech.map((t) => <li>{t}</li>)}</ul>
+        <ul role="list" class="tech__list">{service.tech.map((t, i) => <li class={`pill ${['dot-blue','dot-green','dot-red','dot-navy','dot-gold'][i % 5]}`}>{t}</li>)}</ul>
         {relevantIndustries.length > 0 && (
           <>
             <h3 class="heading-s text-muted">Where we have applied it</h3>
@@ -85,7 +88,7 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
 
   <Faq items={service.faqs} title={`Questions about ${service.name.toLowerCase()}`} />
 
-  <section class="section" id="enquire" aria-labelledby="enquire-title">
+  <section class="section section--milk" id="enquire" aria-labelledby="enquire-title">
     <div class="container two-col">
       <div class="enquire__copy">
         <h2 id="enquire-title" class="display-l reveal-clip">Tell us about the project</h2>
@@ -108,11 +111,13 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
   .ledger__row--static:hover { padding-left: 0; }
   .steps { display: grid; gap: var(--space-6); }
   @media (min-width: 760px) { .steps { grid-template-columns: repeat(3, 1fr); } }
-  .steps__item { display: grid; gap: var(--space-3); padding-top: var(--space-5); border-top: 1.5px solid var(--border-default); align-content: start; }
+  .band { background: var(--grad-navy); }
+  .steps__item { display: grid; gap: var(--space-3); padding: var(--space-5); border-radius: var(--radius-md); background: rgba(255,255,255,.06); border: 1px solid var(--border-default); align-content: start; }
+  .steps__num { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--gold-600); color: var(--ink-900); font-family: var(--font-display); font-weight: 700; font-size: .9rem; }
   .benefits { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
-  .benefits li { display: flex; gap: 12px; }
-  .benefits li::before { content: ''; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--bg-accent); margin-top: 0.55em; }
-  .tech { display: grid; gap: var(--space-4); padding: var(--space-6); border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--bg-page); align-content: start; }
+  .benefits li { display: flex; gap: 14px; align-items: flex-start; }
+  .benefits__tick { width: 30px; height: 30px; border-radius: 9px; margin-top: 2px; }
+  .tech { display: grid; gap: var(--space-4); padding: var(--space-6); border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--bg-milk); align-content: start; }
   .tech__list { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-3); color: var(--text-secondary); }
   .tech__list a { color: var(--text-accent); }
   .enquire__copy { display: grid; gap: var(--space-5); align-content: start; }

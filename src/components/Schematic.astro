@@ -44,11 +44,11 @@ const [a, b, c, d, e] = nodes;
   .schematic { color: var(--line-schematic); width: 100%; }
   .schematic__svg { width: 100%; height: auto; overflow: visible; }
   .s-line { stroke: currentColor; stroke-width: 1.5; fill: none; stroke-dasharray: 4 4; }
-  .s-node rect { fill: var(--bg-surface); stroke: currentColor; stroke-width: 1.5; }
+  .s-node rect { fill: var(--white); stroke: currentColor; stroke-width: 1.5; }
   .s-node text { font-family: var(--font-mono); font-size: 13px; fill: var(--text-primary); text-anchor: middle; }
-  .s-node--accent rect { stroke: var(--border-accent); }
-  .s-node--accent text { fill: var(--text-accent); }
-  .s-pulse { fill: var(--bg-accent); opacity: 0; }
+  .s-node--accent rect { stroke: var(--gold-600); fill: var(--gold-50); }
+  .s-node--accent text { fill: var(--gold-700); }
+  .s-pulse { fill: var(--blue-600); opacity: 0; }
   .is-drawn .s-pulse { opacity: 1; transition: opacity 400ms ease 1.4s; }
   .s-meta { font-family: var(--font-mono); font-size: 11px; fill: var(--text-muted); letter-spacing: .04em; }
   .s-node { opacity: 0; transform: translateY(6px); transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); }

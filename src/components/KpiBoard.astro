@@ -1,0 +1,79 @@
+---
+/**
+ * Dashboard preview — the kind of operations board we build inside client ERPs.
+ * Numbers are DEMO DATA (labelled on the board). Count-up + bar growth animate on scroll.
+ */
+import Icon from './Icon.astro';
+interface Props { title?: string; compact?: boolean }
+const { title = 'Operations board', compact = false } = Astro.props;
+const kpis = [
+  { label: 'Gate moves today', value: 1284, suffix: '', delta: '+6.2%', tone: 'blue', icon: 'truck' },
+  { label: 'Approvals pending', value: 7, suffix: '', delta: '−12', tone: 'red', icon: 'clock' },
+  { label: 'Invoices posted to Tally', value: 342, suffix: '', delta: '100% synced', tone: 'green', icon: 'doc' },
+  { label: 'Docs auto-verified', value: 96, suffix: '%', delta: 'review 4%', tone: 'gold', icon: 'shield' },
+];
+const bars = [38, 52, 46, 70, 64, 82, 76, 91, 85, 98, 92, 100];
+---
+<div class:list={['board', { 'board--compact': compact }]} data-kpi-board>
+  <div class="board__head">
+    <span class="board__title label-m">{title}</span>
+    <span class="board__live label-s"><span class="board__pulse" aria-hidden="true"></span>Live · demo data</span>
+  </div>
+  <div class="board__kpis">
+    {kpis.map((k) => (
+      <div class={`kpi kpi--${k.tone}`}>
+        <span class={`tile tile--${k.tone}`}><Icon name={k.icon as any} size={18} /></span>
+        <span class="kpi__value" data-count={k.value} data-suffix={k.suffix}>0{k.suffix}</span>
+        <span class="kpi__label label-s">{k.label}</span>
+        <span class="kpi__delta label-s">{k.delta}</span>
+      </div>
+    ))}
+  </div>
+  <div class="board__chart" aria-hidden="true">
+    <div class="board__chart-head"><span class="label-s">Throughput, last 12 weeks</span><span class="label-s board__legend"><i class="l-blue"></i>Processed <i class="l-gold"></i>Automated</span></div>
+    <div class="bars">
+      {bars.map((h, i) => (
+        <div class="bar" style={`--h:${h}%; --i:${i}`}><span class="bar__auto" style={`--a:${Math.round(h * (0.45 + i * 0.045))}%`}></span></div>
+      ))}
+    </div>
+  </div>
+  <ul role="list" class="board__feed label-s">
+    <li><span class="dot dot-green"></span>Container VQ-4821 released · invoice #10482 posted</li>
+    <li><span class="dot dot-blue"></span>GST return for Client 17 verified by AI · awaiting signature</li>
+    <li><span class="dot dot-red"></span>Purchase order PO-233 over budget · escalated to director</li>
+  </ul>
+</div>
+
+<style>
+  .board { display: grid; gap: var(--space-4); padding: var(--space-5); border-radius: var(--radius-lg); background: var(--bg-surface); border: 1px solid var(--border-default); box-shadow: 0 30px 60px -40px rgba(22, 26, 51, 0.5), 0 1px 0 rgba(255,255,255,.6) inset; color: var(--ink-900); }
+  .board__head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); }
+  .board__live { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); }
+  .board__pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--green-600); box-shadow: 0 0 0 0 rgba(52, 168, 83, 0.5); animation: pulse 2s ease-out infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(52, 168, 83, 0); } 100% { box-shadow: 0 0 0 0 rgba(52, 168, 83, 0); } }
+  .board__kpis { display: grid; gap: var(--space-3); grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 560px) { .board__kpis { grid-template-columns: repeat(4, 1fr); } }
+  .board--compact .board__kpis { grid-template-columns: repeat(2, 1fr); }
+  .kpi { display: grid; gap: 6px; padding: var(--space-4); border-radius: var(--radius-md); background: var(--milk-100); border: 1px solid var(--border-default); transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+  .kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+  .kpi .tile { width: 34px; height: 34px; border-radius: 9px; }
+  .kpi__value { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; margin-top: 4px; }
+  .kpi__label { color: var(--text-secondary); }
+  .kpi__delta { font-weight: 600; }
+  .kpi--blue .kpi__delta { color: var(--blue-700); } .kpi--green .kpi__delta { color: var(--green-700); } .kpi--red .kpi__delta { color: var(--red-700); } .kpi--gold .kpi__delta { color: var(--gold-800); }
+  .board__chart { padding: var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--border-default); background: var(--white); }
+  .board__chart-head { display: flex; justify-content: space-between; color: var(--text-muted); margin-bottom: var(--space-3); flex-wrap: wrap; gap: 8px; }
+  .board__legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin: 0 6px 0 10px; vertical-align: -1px; }
+  .l-blue { background: var(--blue-500); } .l-gold { background: var(--gold-600); }
+  .bars { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; height: 120px; align-items: end; }
+  .bar { position: relative; height: 0; border-radius: 6px 6px 3px 3px; background: var(--blue-100); overflow: hidden; transition: height 900ms var(--ease-out); transition-delay: calc(var(--i) * 45ms); }
+  .is-in .bar { height: var(--h); }
+  .bar__auto { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(180deg, var(--gold-600), var(--gold-700)); transition: height 900ms var(--ease-out); transition-delay: calc(var(--i) * 45ms + 300ms); border-radius: 3px 3px 0 0; }
+  .is-in .bar__auto { height: var(--a); }
+  .board__feed { display: grid; gap: 8px; color: var(--text-secondary); }
+  .board__feed li { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; background: var(--milk-100); opacity: 0; transform: translateX(-6px); transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); }
+  .is-in .board__feed li { opacity: 1; transform: none; }
+  .is-in .board__feed li:nth-child(1) { transition-delay: 600ms } .is-in .board__feed li:nth-child(2) { transition-delay: 800ms } .is-in .board__feed li:nth-child(3) { transition-delay: 1000ms }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot); flex: none; }
+  .no-js .bar { height: var(--h); } .no-js .bar__auto { height: var(--a); } .no-js .board__feed li { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .bar { height: var(--h); } .bar__auto { height: var(--a); } .board__feed li { opacity: 1; transform: none; } .board__pulse { animation: none; } }
+</style>

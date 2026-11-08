@@ -4,11 +4,11 @@ import { services } from '../data/services';
 import Logo from './Logo.astro';
 const year = new Date().getFullYear();
 ---
-<footer class="footer" data-theme="ink">
+<footer class="footer" data-theme="navy">
   <div class="container">
     <div class="footer__grid">
       <div class="footer__brand">
-        <a href="/" class="footer__logo" aria-label="Visionqode — home"><Logo size={26} /><span class="heading-s">Visionqode</span></a>
+        <a href="/" class="footer__logo" aria-label="Visionqode — home"><Logo size={34} /></a>
         <p class="body-s text-secondary measure-narrow">{site.legalName}. {site.tagline}. Software, automation and AI systems engineered in {site.address.locality}, {site.address.countryName}, for businesses everywhere.</p>
         <ul role="list" class="footer__social label-s">
           <li><a href={site.whatsapp} rel="noopener" target="_blank">WhatsApp</a></li>
