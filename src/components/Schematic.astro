@@ -1,0 +1,62 @@
+---
+/**
+ * The hero schematic: a lead-to-ledger pipeline drawn as an engineering sketch.
+ * Pure SVG + CSS; lines draw themselves once on load (see scripts/motion.ts).
+ */
+interface Props { caption?: string; nodes?: string[]; status?: string; compact?: boolean }
+const {
+  caption = 'Fig. 01 — a lead-to-ledger pipeline, the shape of most systems we build',
+  nodes = ['Enquiry', 'Qualify', 'Approve', 'Invoice', 'Ledger'],
+  status = 'ZERO MANUAL TOUCHES',
+  compact = false,
+} = Astro.props;
+const [a, b, c, d, e] = nodes;
+---
+<figure class:list={['schematic', { 'schematic--compact': compact }]}>
+  <svg viewBox="0 0 520 400" data-schematic role="img" aria-labelledby="schematic-title" class="schematic__svg">
+    <title id="schematic-title">Diagram: {a} flows to {b}, then {c} and {d}, converging on {e}</title>
+    <defs>
+      <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-opacity=".07" /></pattern>
+    </defs>
+    <rect width="520" height="400" fill="url(#grid)" />
+    <!-- connectors -->
+    <line data-draw x1="136" y1="64" x2="300" y2="64" class="s-line" />
+    <line data-draw x1="88" y1="88" x2="88" y2="208" class="s-line" />
+    <line data-draw x1="348" y1="88" x2="348" y2="208" class="s-line" />
+    <line data-draw x1="136" y1="232" x2="300" y2="232" class="s-line" />
+    <path data-draw d="M96 256 C 110 320, 180 330, 212 342" class="s-line" />
+    <path data-draw d="M340 256 C 326 320, 262 330, 232 342" class="s-line" />
+    <!-- nodes -->
+    <g class="s-node"><rect x="40" y="40" width="96" height="48" rx="4" /><text x="88" y="69">{a}</text></g>
+    <g class="s-node"><rect x="300" y="40" width="96" height="48" rx="4" /><text x="348" y="69">{b}</text></g>
+    <g class="s-node"><rect x="40" y="208" width="96" height="48" rx="4" /><text x="88" y="237">{c}</text></g>
+    <g class="s-node"><rect x="300" y="208" width="96" height="48" rx="4" /><text x="348" y="237">{d}</text></g>
+    <g class="s-node s-node--accent"><rect x="166" y="330" width="112" height="48" rx="4" /><text x="222" y="359">{e}</text></g>
+    <!-- pulse travelling the top edge -->
+    <circle class="s-pulse" r="5" cx="136" cy="64"><animateMotion dur="3.2s" repeatCount="indefinite" path="M0 0 L 164 0 L 212 0 L 212 144 L 48 144" keyPoints="0;1" keyTimes="0;1" /></circle>
+    <text x="40" y="18" class="s-meta">{status}</text>
+    {!compact && <text x="480" y="18" class="s-meta" text-anchor="end">v2.0</text>}
+  </svg>
+  <figcaption class="mono text-muted">{caption}</figcaption>
+</figure>
+
+<style>
+  .schematic { color: var(--line-schematic); width: 100%; }
+  .schematic__svg { width: 100%; height: auto; overflow: visible; }
+  .s-line { stroke: currentColor; stroke-width: 1.5; fill: none; stroke-dasharray: 4 4; }
+  .s-node rect { fill: var(--bg-surface); stroke: currentColor; stroke-width: 1.5; }
+  .s-node text { font-family: var(--font-mono); font-size: 13px; fill: var(--text-primary); text-anchor: middle; }
+  .s-node--accent rect { stroke: var(--border-accent); }
+  .s-node--accent text { fill: var(--text-accent); }
+  .s-pulse { fill: var(--bg-accent); opacity: 0; }
+  .is-drawn .s-pulse { opacity: 1; transition: opacity 400ms ease 1.4s; }
+  .s-meta { font-family: var(--font-mono); font-size: 11px; fill: var(--text-muted); letter-spacing: .04em; }
+  .s-node { opacity: 0; transform: translateY(6px); transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out); }
+  .is-drawn .s-node { opacity: 1; transform: none; }
+  .is-drawn .s-node:nth-of-type(1) { transition-delay: 100ms } .is-drawn .s-node:nth-of-type(2) { transition-delay: 350ms }
+  .is-drawn .s-node:nth-of-type(3) { transition-delay: 600ms } .is-drawn .s-node:nth-of-type(4) { transition-delay: 850ms }
+  .is-drawn .s-node:nth-of-type(5) { transition-delay: 1200ms }
+  .no-js .s-node, .no-js .s-pulse { opacity: 1; transform: none; }
+  figcaption { margin-top: var(--space-3); }
+  @media (prefers-reduced-motion: reduce) { .s-node, .s-pulse { opacity: 1; transform: none; } .s-pulse animateMotion { display: none; } }
+</style>

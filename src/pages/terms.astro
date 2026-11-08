@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+const crumbs = [{ name: 'Terms of Use', href: '/terms' }];
+---
+<Base title="Terms of Use — Visionqode" description="Terms governing the use of the visionqode.com website." breadcrumbs={crumbs} noindex>
+  <PageHeader title="Terms of Use" lede="These terms cover use of this website. Project work is governed by the proposal and agreement signed for each engagement." crumbs={crumbs} />
+  <section class="section section--surface"><div class="container prose">
+    <p class="needs-approval"><strong>Draft for legal review.</strong> The previous site linked to Terms of Service that did not exist. This draft is written to be reviewed and approved by {site.legalName} before publication; the page is excluded from search engines until then.</p>
+    <h2 class="heading-m">Use of the website</h2>
+    <p>The content of this website is provided for general information about {site.legalName} and its services. You may browse and share links to it. You may not copy, scrape or republish substantial parts of it without written permission.</p>
+    <h2 class="heading-m">No offer or guarantee</h2>
+    <p>Descriptions of services, processes and technologies are illustrative. Nothing on this website constitutes an offer, a quotation or a guarantee of results. Scope, timelines, cost and warranties are defined only in a signed proposal or agreement.</p>
+    <h2 class="heading-m">Intellectual property</h2>
+    <p>The Visionqode name, logo, text and design of this website belong to {site.legalName}. Third-party product names (Tally, SAP, Zoho, Razorpay, WhatsApp and others) are trademarks of their respective owners and are used only to describe compatibility and integration.</p>
+    <h2 class="heading-m">Enquiries</h2>
+    <p>Information you send through the enquiry form is handled as described in the <a href="/privacy">Privacy Notice</a>. Submitting an enquiry does not create a client relationship.</p>
+    <h2 class="heading-m">Liability</h2>
+    <p>To the extent permitted by law, {site.legalName} is not liable for loss arising from reliance on information on this website or from its temporary unavailability.</p>
+    <h2 class="heading-m">Governing law</h2>
+    <p>These terms are governed by the laws of India. Courts at {site.address.locality} / Thane, Maharashtra, have exclusive jurisdiction.</p>
+    <h2 class="heading-m">Contact</h2>
+    <p><a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.phoneHref}>{site.phone}</a></p>
+  </div></section>
+</Base>
+<style>
+  .prose { max-width: 72ch; display: grid; gap: var(--space-4); }
+  .prose h2 { margin-top: var(--space-5); }
+  .prose a { color: var(--text-accent); text-decoration: underline; text-underline-offset: 3px; }
+</style>

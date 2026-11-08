@@ -1,0 +1,64 @@
+---
+import { site, nav } from '../data/site';
+import { services } from '../data/services';
+import Logo from './Logo.astro';
+const year = new Date().getFullYear();
+---
+<footer class="footer" data-theme="ink">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="/" class="footer__logo" aria-label="Visionqode — home"><Logo size={26} /><span class="heading-s">Visionqode</span></a>
+        <p class="body-s text-secondary measure-narrow">{site.legalName}. {site.tagline}. Software, automation and AI systems engineered in {site.address.locality}, {site.address.countryName}, for businesses everywhere.</p>
+        <ul role="list" class="footer__social label-s">
+          <li><a href={site.whatsapp} rel="noopener" target="_blank">WhatsApp</a></li>
+          {site.social.map((s) => (
+            <li class:list={{ 'needs-approval': s.needsApproval }}>{s.href ? <a href={s.href} rel="noopener me" target="_blank">{s.label}</a> : <span class="text-muted" title="Profile URL to be confirmed">{s.label}</span>}</li>
+          ))}
+        </ul>
+      </div>
+      <nav aria-label="Services" class="footer__col">
+        <h2 class="label-m">Services</h2>
+        <ul role="list">{services.map((s) => <li><a class="body-s" href={`/services/${s.slug}`}>{s.name}</a></li>)}</ul>
+      </nav>
+      <nav aria-label="Company" class="footer__col">
+        <h2 class="label-m">Company</h2>
+        <ul role="list">
+          {nav.filter((n) => n.href !== '/services').map((n) => <li><a class="body-s" href={n.href}>{n.label}</a></li>)}
+          <li><a class="body-s" href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer__col">
+        <h2 class="label-m">Contact</h2>
+        <ul role="list">
+          <li><a class="body-s" href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a class="body-s" href={site.phoneHref}>{site.phone}</a></li>
+          <li><span class="body-s text-secondary">{site.address.locality}, {site.address.region}, {site.address.countryName}</span></li>
+          <li><span class="body-s text-secondary">{site.founder.name}, {site.founder.role}</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__legal label-s text-muted">
+      <span>© {year} {site.legalName}</span>
+      <span class="footer__legal-links"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sitemap-index.xml">Sitemap</a></span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--bg-page); color: var(--text-primary); padding-block: clamp(56px, 7vw, 88px) var(--space-6); }
+  .footer__grid { display: grid; gap: var(--space-7); grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-8); } }
+  .footer__logo { display: inline-flex; align-items: center; gap: 10px; color: var(--text-primary); margin-bottom: var(--space-4); }
+  .footer__brand p { margin-bottom: var(--space-5); }
+  .footer__social { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+  .footer__social a { color: var(--text-primary); }
+  .footer__col h2 { margin-bottom: var(--space-4); color: var(--text-primary); }
+  .footer__col ul { display: grid; gap: 10px; }
+  .footer__col a { color: var(--text-secondary); }
+  .footer__col a:hover { color: var(--text-primary); }
+  .footer__legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); margin-top: clamp(40px, 5vw, 64px); padding-top: var(--space-5); border-top: 1px solid var(--border-default); }
+  .footer__legal-links { display: flex; gap: var(--space-4); }
+  .footer__legal a:hover { color: var(--text-primary); }
+</style>

@@ -1,0 +1,19 @@
+---
+interface Props { items: string[]; label: string }
+const { items, label } = Astro.props;
+---
+<div class="marquee-wrap">
+  <p class="label-s text-muted marquee-label">{label}</p>
+  <div class="marquee" data-marquee>
+    <ul role="list" class="marquee__track label-m">{items.map((i) => <li>{i}</li>)}</ul>
+  </div>
+</div>
+<style>
+  .marquee-wrap { border-block: 1px solid var(--border-default); padding-block: var(--space-5); }
+  .marquee-label { padding-inline: var(--gutter); max-width: var(--container-max); margin: 0 auto var(--space-3); }
+  .marquee { display: flex; overflow: hidden; gap: var(--space-7); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .marquee__track { display: flex; gap: var(--space-7); flex: none; padding-inline: var(--gutter); flex-wrap: wrap; justify-content: center; width: 100%; color: var(--text-secondary); }
+  .marquee.is-animated .marquee__track { will-change: transform; flex-wrap: nowrap; width: auto; justify-content: flex-start; animation: marquee 48s linear infinite; }
+  .marquee.is-animated:hover .marquee__track { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(calc(-100% - var(--space-7))); } }
+</style>

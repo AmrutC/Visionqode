@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+import { industries } from '../data/industries';
+import { getService } from '../data/services';
+const crumbs = [{ name: 'Work', href: '/work' }];
+/**
+ * Case-study framework. The previous site showed metrics (-38% leakage, 3.4x leads…)
+ * that cannot be verified, so they have been removed. Each card below is a
+ * design-ready slot: fill `client`, `challenge`, `outcome`, add screenshots, and
+ * remove `pending` once approved by the company.
+ */
+const cases = industries.slice(0, 4).map((i) => ({
+  pending: true,
+  industry: i.name,
+  title: i.headline,
+  client: 'Client name — to be approved',
+  challenge: i.text,
+  solution: i.points,
+  services: i.services,
+  outcome: 'Verified outcome(s) — to be approved (e.g. "Month-end closing time", "First-response time", "Documents auto-verified per day").',
+}));
+---
+<Base title="Work & Case Studies — Visionqode" description="Selected platforms engineered by Visionqode across logistics, real estate, compliance and e-commerce — the business challenge, the system built, and the outcome." breadcrumbs={crumbs} noindex>
+  <PageHeader title="Work that moved real numbers" lede="Every case study here follows the same shape: the challenge the business had, the system we built, the technology, and what changed. We publish only what the client has agreed to." crumbs={crumbs} eyebrow="Work" />
+  <section class="section section--surface">
+    <div class="container cases">
+      {cases.map((c, i) => (
+        <article class:list={['case', { 'needs-approval': c.pending }]}>
+          <header class="case__head">
+            <p class="label-s text-muted">Case 0{i + 1} · {c.industry}</p>
+            <h2 class="display-l">{c.title}</h2>
+            <p class="heading-s text-muted">{c.client}</p>
+          </header>
+          <dl class="case__grid">
+            <div><dt class="label-m">Challenge</dt><dd class="body-m text-secondary">{c.challenge}</dd></div>
+            <div><dt class="label-m">What we built</dt><dd><ul role="list" class="body-m text-secondary case__list">{c.solution.map((s) => <li>{s}</li>)}</ul></dd></div>
+            <div><dt class="label-m">Services</dt><dd><ul role="list" class="case__services">{c.services.map((s) => { const sv = getService(s)!; return <li><a class="link-draw label-m" href={`/services/${sv.slug}`}>{sv.name}</a></li>; })}</ul></dd></div>
+            <div><dt class="label-m">Outcome</dt><dd class="body-m text-secondary">{c.outcome}</dd></div>
+          </dl>
+          <div class="case__media mono text-muted">Product screenshots — to be supplied</div>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="section section--tight">
+    <div class="container"><p class="body-s text-muted measure">This page is marked <code>noindex</code> until the client names, screenshots and outcomes are approved — publishing unverified results would hurt more than it helps. Remove the flag in <code>src/pages/work.astro</code> once the content is final.</p></div>
+  </section>
+  <Cta title="Want to be the next case study?" />
+</Base>
+<style>
+  .cases { display: grid; gap: clamp(48px, 6vw, 80px); }
+  .case { display: grid; gap: var(--space-6); padding: var(--space-6); border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--bg-page); }
+  .case__head { display: grid; gap: var(--space-3); }
+  .case__grid { display: grid; gap: var(--space-5); margin: 0; }
+  @media (min-width: 760px) { .case__grid { grid-template-columns: 1fr 1fr; } }
+  .case__grid dd { margin: 6px 0 0; }
+  .case__list { display: grid; gap: 6px; padding-left: 1.1em; list-style: disc; }
+  .case__services { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+  .case__media { display: grid; place-items: center; min-height: 220px; border: 1px dashed var(--border-default); border-radius: var(--radius-sm); background: var(--bg-surface); }
+  code { font-family: var(--font-mono); font-size: 0.9em; }
+</style>

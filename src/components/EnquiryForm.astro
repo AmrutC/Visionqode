@@ -1,0 +1,126 @@
+---
+import { site, budgetBands } from '../data/site';
+import { services } from '../data/services';
+interface Props { defaultType?: string; compact?: boolean }
+const { defaultType, compact = false } = Astro.props;
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+---
+<form class:list={['enquiry', { 'enquiry--compact': compact }]} method="post" action={endpoint || `mailto:${site.email}`} data-enquiry data-endpoint={endpoint} data-email={site.email} data-whatsapp={site.whatsapp} novalidate>
+  <input type="hidden" name="subject" value="Project enquiry — visionqode.com" />
+  <input type="hidden" name="from_name" value="Visionqode website" />
+  <div class="sr-only" aria-hidden="true"><label for="f-botcheck">Leave empty</label><input id="f-botcheck" type="text" name="botcheck" tabindex="-1" autocomplete="off" /></div>
+
+  <div class="field">
+    <label for="f-name">Your name</label>
+    <input id="f-name" name="name" type="text" autocomplete="name" required minlength="2" />
+    <small class="error" data-error>Please tell us your name.</small>
+  </div>
+  <div class="field">
+    <label for="f-email">Work email</label>
+    <input id="f-email" name="email" type="email" autocomplete="email" required inputmode="email" />
+    <small class="error" data-error>Enter an email we can reply to.</small>
+  </div>
+  <div class="field">
+    <label for="f-company">Company <span class="text-muted">(optional)</span></label>
+    <input id="f-company" name="company" type="text" autocomplete="organization" />
+  </div>
+  <div class="field">
+    <label for="f-type">What do you need?</label>
+    <select id="f-type" name="project_type" required>
+      <option value="" disabled selected={!defaultType}>Choose one</option>
+      {services.map((s) => <option value={s.name} selected={defaultType === s.slug}>{s.name}</option>)}
+      <option value="Not sure yet">Not sure yet — advise me</option>
+    </select>
+    <small class="error" data-error>Pick the closest option.</small>
+  </div>
+  <div class="field">
+    <label for="f-budget">Budget range <span class="text-muted">(optional)</span></label>
+    <select id="f-budget" name="budget"><option value="">Prefer not to say</option>{budgetBands.map((b) => <option value={b}>{b}</option>)}</select>
+  </div>
+  <div class="field field--full">
+    <label for="f-details">About the project</label>
+    <textarea id="f-details" name="message" rows="5" required minlength="20" placeholder="What does the business do, what slows it down, and what should be true in six months?"></textarea>
+    <small class="error" data-error>A few sentences help us reply usefully.</small>
+  </div>
+  <div class="field field--full consent">
+    <label class="consent__label"><input type="checkbox" name="consent" required /> <span class="body-s text-secondary">I agree to {site.legalName} using my name, email and company to respond to this enquiry, as described in the <a href="/privacy">Privacy Notice</a>. I can withdraw consent any time by writing to <a href={`mailto:${site.email}`}>{site.email}</a>.</span></label>
+    <small class="error" data-error>We need your consent to reply.</small>
+  </div>
+  <div class="field field--full actions">
+    <button class="btn btn--primary" type="submit" data-submit>Send enquiry</button>
+    <a class="btn btn--secondary" href={site.whatsapp} target="_blank" rel="noopener">Or WhatsApp us</a>
+    <p class="body-s text-muted">We reply {site.replyTime}. Your details are used only to respond, never sold or shared.</p>
+  </div>
+  <div class="status" role="status" aria-live="polite" data-status hidden></div>
+</form>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-enquiry]');
+  forms.forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const endpoint = form.dataset.endpoint || '';
+    const show = (msg: string, kind: 'ok' | 'err' | 'info') => { status.hidden = false; status.textContent = msg; status.dataset.kind = kind; };
+    const validate = () => {
+      let ok = true;
+      form.querySelectorAll<HTMLElement>('.field').forEach((f) => {
+        const input = f.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea');
+        if (!input || !input.required) return;
+        const valid = input.checkValidity();
+        f.classList.toggle('is-invalid', !valid);
+        if (!valid) ok = false;
+      });
+      return ok;
+    };
+    form.addEventListener('input', (e) => (e.target as HTMLElement).closest('.field')?.classList.remove('is-invalid'));
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if ((form.elements.namedItem('botcheck') as HTMLInputElement).value) return;
+      if (!validate()) { show('Please check the highlighted fields.', 'err'); form.querySelector<HTMLElement>('.is-invalid input, .is-invalid select, .is-invalid textarea')?.focus(); return; }
+      const data = new FormData(form);
+      const summary = `Enquiry from ${data.get('name')} (${data.get('email')}${data.get('company') ? ', ' + data.get('company') : ''})\nNeed: ${data.get('project_type')}\nBudget: ${data.get('budget') || 'not stated'}\n\n${data.get('message')}`;
+      if (!endpoint) {
+        // No endpoint configured: hand off via the user's mail client, offer WhatsApp as well.
+        const mail = `mailto:${form.dataset.email}?subject=${encodeURIComponent('Project enquiry — visionqode.com')}&body=${encodeURIComponent(summary)}`;
+        window.location.href = mail;
+        show('Opening your email app with the enquiry pre-filled. If nothing opened, use the WhatsApp button — your message is not lost.', 'info');
+        return;
+      }
+      submit.disabled = true; submit.textContent = 'Sending…';
+      try {
+        const res = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        show(`Sent. We will reply within one business day to the email you gave us.`, 'ok');
+        submit.textContent = 'Sent';
+      } catch {
+        submit.disabled = false; submit.textContent = 'Send enquiry';
+        const wa = `${form.dataset.whatsapp}?text=${encodeURIComponent(summary)}`;
+        status.innerHTML = `Sending failed — our form service didn't respond. <a href="${wa}" target="_blank" rel="noopener">Send the same message on WhatsApp</a> or email <a href="mailto:${form.dataset.email}">${form.dataset.email}</a>.`;
+        status.hidden = false; status.dataset.kind = 'err';
+      }
+    });
+  });
+</script>
+
+<style>
+  .enquiry { display: grid; gap: var(--space-5); grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .enquiry { grid-template-columns: 1fr 1fr; } .field--full { grid-column: 1 / -1; } }
+  .field { display: grid; gap: 8px; }
+  label { font-size: var(--label-m); font-weight: 500; }
+  input:not([type='checkbox']), select, textarea { width: 100%; padding: 13px 14px; border: 1px solid var(--border-default); border-radius: 6px; background: var(--bg-surface); color: var(--text-primary); transition: border-color var(--dur-fast), box-shadow var(--dur-fast); }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--border-accent); box-shadow: 0 0 0 3px var(--bg-accent-tint); }
+  textarea { resize: vertical; min-height: 140px; }
+  .error { display: none; color: var(--signal-red); font-size: var(--label-s); }
+  .is-invalid .error { display: block; }
+  .is-invalid input, .is-invalid select, .is-invalid textarea { border-color: var(--signal-red); }
+  .consent__label { display: flex; gap: 12px; align-items: flex-start; font-weight: 400; cursor: pointer; }
+  .consent input { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--bg-accent); }
+  .consent a { color: var(--text-accent); text-decoration: underline; text-underline-offset: 3px; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
+  .actions p { flex-basis: 100%; }
+  .status { grid-column: 1 / -1; padding: 14px 16px; border-radius: 6px; border: 1px solid var(--border-default); background: var(--bg-surface); }
+  .status[data-kind='ok'] { border-color: var(--signal-green); color: var(--signal-green); }
+  .status[data-kind='err'] { border-color: var(--signal-red); }
+  .status a { color: var(--text-accent); text-decoration: underline; }
+</style>

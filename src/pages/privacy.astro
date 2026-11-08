@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+const crumbs = [{ name: 'Privacy Notice', href: '/privacy' }];
+---
+<Base title="Privacy Notice — Visionqode Private Limited" description="How VisionQode Private Limited collects and uses personal data through this website, under the Digital Personal Data Protection Act, 2023 (India)." breadcrumbs={crumbs}>
+  <PageHeader title="Privacy Notice" lede="Last updated: 13 August 2026 · Issued under the Digital Personal Data Protection Act, 2023 (India). Updated for the redesigned website on 8 November 2026." crumbs={crumbs} />
+  <section class="section section--surface"><div class="container prose">
+    <h2 class="heading-m">Who we are</h2>
+    <p>{site.legalName} (“Visionqode”, “we”), {site.address.locality}, {site.address.region}, {site.address.countryName}, is the Data Fiduciary for personal data collected through this website. Contact: <a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.phoneHref}>{site.phone}</a>.</p>
+    <h2 class="heading-m">What personal data we collect, and why</h2>
+    <ul>
+      <li><strong>Enquiry form</strong> — your name, email address, company name (optional), budget range (optional) and the project details you write. Purpose: to respond to your enquiry and discuss your project. Legal basis: your consent, given via the checkbox on the form.</li>
+      <li><strong>Direct contact</strong> — if you email, call or message us on WhatsApp, we process the details you share to reply to you.</li>
+    </ul>
+    <p>We collect nothing else. This website sets no analytics or advertising cookies and does not track you. Embedded third-party content (the Google Maps frame on the contact page) may receive your IP address as a technical necessity when your browser loads it; this is governed by Google's own policies. Fonts and scripts are served from our own domain.</p>
+    <h2 class="heading-m">How your data is used and shared</h2>
+    <p>Your data is used only for the purposes stated above. We do not sell personal data, and we do not share it with anyone for marketing. It may be processed on our behalf by email, form-handling and hosting providers strictly to deliver the services above.</p>
+    <h2 class="heading-m">How long we keep it</h2>
+    <p>Enquiry data is retained while we correspond with you and for up to 24 months afterwards, then deleted. Data is deleted earlier on request.</p>
+    <h2 class="heading-m">Your rights under the DPDP Act</h2>
+    <ul>
+      <li>Access a summary of the personal data we hold about you</li>
+      <li>Correct or update inaccurate or incomplete data</li>
+      <li>Erase your data once the purpose is served</li>
+      <li>Withdraw consent at any time, as easily as you gave it</li>
+      <li>Nominate another individual to exercise these rights on your behalf</li>
+      <li>Have your grievance addressed by us, and escalate to the Data Protection Board of India if unresolved</li>
+    </ul>
+    <p>To exercise any right, email <a href={`mailto:${site.email}?subject=DPDP%20Request`}>{site.email}</a> with the subject “DPDP Request”. We respond within the timelines prescribed under the Act and Rules.</p>
+    <h2 class="heading-m">Grievance Officer</h2>
+    <p>{site.founder.name}, {site.legalName}, {site.address.locality}, {site.address.region}, {site.address.countryName} · <a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.phoneHref}>{site.phone}</a>. If you are not satisfied with our response, you may complain to the Data Protection Board of India.</p>
+    <h2 class="heading-m">Security</h2>
+    <p>We apply reasonable security safeguards — encrypted transmission (HTTPS), access controls and minimal collection — to protect your personal data, and will notify you and the Data Protection Board of any personal data breach as required by law.</p>
+  </div></section>
+</Base>
+<style>
+  .prose { max-width: 72ch; display: grid; gap: var(--space-4); }
+  .prose h2 { margin-top: var(--space-5); }
+  .prose ul { padding-left: 1.2em; display: grid; gap: var(--space-2); }
+  .prose a { color: var(--text-accent); text-decoration: underline; text-underline-offset: 3px; }
+</style>

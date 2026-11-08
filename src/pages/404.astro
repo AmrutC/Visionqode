@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { services } from '../data/services';
+---
+<Base title="Page not found — Visionqode" description="That page does not exist. Here is where to go instead." noindex>
+  <section class="section"><div class="container nf">
+    <p class="mono text-muted">404</p>
+    <h1 class="display-xl">That page isn't in the system.</h1>
+    <p class="body-l text-secondary measure-narrow">The old site was a single page, so many previous links now point here. These are the pages people usually want:</p>
+    <ul role="list" class="nf__links">
+      <li><a class="link-draw label-m" href="/">Home</a></li>
+      {services.map((s) => <li><a class="link-draw label-m" href={`/services/${s.slug}`}>{s.name}</a></li>)}
+      <li><a class="link-draw label-m" href="/contact">Contact</a></li>
+    </ul>
+  </div></section>
+</Base>
+<style>
+  .nf { display: grid; gap: var(--space-5); justify-items: start; min-height: 50vh; }
+  .nf__links { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-6); }
+</style>

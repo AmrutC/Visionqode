@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Schematic from '../components/Schematic.astro';
+import Cta from '../components/Cta.astro';
+import { industries } from '../data/industries';
+import { getService } from '../data/services';
+const crumbs = [{ name: 'Industries', href: '/industries' }];
+---
+<Base title="Industries — Logistics, Real Estate, CA Firms, Retail, Healthcare, Manufacturing | Visionqode" description="Visionqode builds software, automation and AI systems for logistics and container yards, real estate and construction, CA/CS practices, retail and e-commerce, healthcare, education and manufacturing." breadcrumbs={crumbs}>
+  <PageHeader title="Industries we know from the inside" lede="Each of these is a kind of operation we have mapped, built for and supported. The diagrams are the real shape of the systems — simplified, not invented." crumbs={crumbs} eyebrow="Industries" />
+  <section class="section section--surface">
+    <div class="container inds">
+      {industries.map((ind, i) => (
+        <article class="ind" id={ind.slug}>
+          <div class="ind__visual reveal"><Schematic compact nodes={ind.schematic.nodes} status={ind.schematic.status} caption={`Fig. 0${i + 1} — ${ind.name}`} /></div>
+          <div class="ind__copy">
+            <h2 class="display-l reveal-clip">{ind.name}</h2>
+            <p class="heading-s reveal">{ind.headline}</p>
+            <p class="body-m text-secondary reveal">{ind.text}</p>
+            <ul role="list" class="ind__points body-m reveal" data-stagger>{ind.points.map((p) => <li>{p}</li>)}</ul>
+            <div class="ind__services reveal">
+              <span class="label-s text-muted">Services involved</span>
+              <ul role="list">{ind.services.map((s) => { const sv = getService(s)!; return <li><a class="link-draw label-m" href={`/services/${sv.slug}`}>{sv.name}</a></li>; })}</ul>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+  <Cta title="Your industry not listed?" text="The method is the same: map the operation, then build the system around it. Tell us what you run." />
+</Base>
+<style>
+  .inds { display: grid; gap: clamp(64px, 8vw, 112px); }
+  .ind { display: grid; gap: var(--space-6); scroll-margin-top: 100px; }
+  @media (min-width: 900px) { .ind { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-9); align-items: center; } .ind:nth-child(even) .ind__visual { order: 2; } }
+  .ind__visual { padding: var(--space-5); border-radius: var(--radius-md); background: var(--bg-page); border: 1px solid var(--border-default); }
+  .ind__copy { display: grid; gap: var(--space-4); }
+  .ind__points { display: grid; gap: 8px; padding-left: 1.1em; list-style: disc; color: var(--text-secondary); }
+  .ind__services { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+  .ind__services ul { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+</style>

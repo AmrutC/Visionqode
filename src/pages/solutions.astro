@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+import { getService } from '../data/services';
+const crumbs = [{ name: 'Solutions', href: '/solutions' }];
+const solutions = [
+  { name: 'Business management platforms', text: 'ERP, CRM, HRMS and inventory as one system with one login — the operational backbone for companies that have outgrown spreadsheets and packaged tools.', fits: 'Growing companies with 20–500 staff and several departments that need the same numbers.', services: ['custom-software-erp', 'api-integration'] },
+  { name: 'AI-powered applications', text: 'Products and internal tools where a language model, OCR or a prediction does real work: reading documents, answering customers, forecasting demand.', fits: 'Teams spending hours a day on reading, re-typing or replying.', services: ['ai-automation', 'web-mobile-apps'] },
+  { name: 'Workflow automation', text: 'Approvals, reminders, WhatsApp conversations, invoicing and follow-ups that move on their own and leave a trail.', fits: 'Businesses where things stall waiting for a person to remember.', services: ['process-automation', 'ai-automation'] },
+  { name: 'Customer-facing digital products', text: 'Apps and portals where customers book, pay, track and get answers — without calling the office.', fits: 'Service businesses, developers, clinics, schools and D2C brands.', services: ['web-mobile-apps', 'website-design'] },
+  { name: 'Intelligent dashboards', text: 'One screen the director opens in the morning, fed by every system, with alerts on what changed and why.', fits: 'Owners and CTOs who have data in five places and trust none of it.', services: ['api-integration', 'ai-automation'] },
+  { name: 'Integrated digital ecosystems', text: 'Website, CRM, WhatsApp, accounting, payments and logistics working as one — for companies that want the whole stack to behave like a single product.', fits: 'Companies planning a digital transformation rather than a single tool.', services: ['api-integration', 'process-automation', 'website-design'] },
+];
+---
+<Base title="Solutions — Business Platforms, AI Applications, Automation & Dashboards | Visionqode" description="How Visionqode turns business requirements into working systems: business management platforms, AI-powered applications, workflow automation, customer-facing products, intelligent dashboards and integrated ecosystems." breadcrumbs={crumbs}>
+  <PageHeader title="From a business requirement to a system that runs it" lede="Services are how we work; solutions are what you end up owning. Each one below is a shape of system we have built more than once, assembled from the services it needs." crumbs={crumbs} eyebrow="Solutions" />
+  <section class="section section--surface">
+    <div class="container">
+      <div class="ledger reveal" data-stagger>
+        {solutions.map((s) => (
+          <div class="sol">
+            <div><h2 class="heading-m">{s.name}</h2><p class="label-s text-muted sol__fit">Fits: {s.fits}</p></div>
+            <div class="sol__body">
+              <p class="body-m text-secondary">{s.text}</p>
+              <ul role="list" class="sol__services">{s.services.map((x) => { const sv = getService(x)!; return <li><a class="link-draw label-m" href={`/services/${sv.slug}`}>{sv.name}</a></li>; })}</ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <Cta title="Describe the requirement. We will name the system." />
+</Base>
+<style>
+  .sol { display: grid; gap: var(--space-4); padding-block: var(--space-6); border-bottom: 1px solid var(--border-default); }
+  @media (min-width: 900px) { .sol { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-8); } }
+  .sol__fit { margin-top: var(--space-2); }
+  .sol__body { display: grid; gap: var(--space-4); }
+  .sol__services { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+</style>

@@ -1,0 +1,120 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import Faq from '../../components/Faq.astro';
+import { services, getService } from '../../data/services';
+import { industries } from '../../data/industries';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+const { service } = Astro.props;
+const related = service.related.map(getService).filter(Boolean);
+const relevantIndustries = industries.filter((i) => i.services.includes(service.slug));
+const crumbs = [{ name: 'Services', href: '/services' }, { name: service.name, href: `/services/${service.slug}` }];
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.name,
+  serviceType: service.name,
+  description: service.metaDescription,
+  provider: { '@id': `${site.url}/#organization` },
+  areaServed: { '@type': 'Country', name: 'India' },
+  url: `${site.url}/services/${service.slug}`,
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: `${service.name} deliverables`, itemListElement: service.deliverables.map((d) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: d.title, description: d.text } })) },
+};
+const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: service.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title={service.title} description={service.metaDescription} breadcrumbs={crumbs} jsonLd={[serviceLd, faqLd]}>
+  <PageHeader title={service.h1} lede={service.intro} crumbs={crumbs} eyebrow={service.name} />
+
+  <section class="section section--surface" aria-labelledby="signals-title">
+    <div class="container two-col">
+      <h2 id="signals-title" class="display-l reveal-clip">Sound familiar?</h2>
+      <ul role="list" class="signals reveal" data-stagger>
+        {service.signals.map((s) => <li class="heading-s">{s}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="deliver-title">
+    <div class="container">
+      <div class="section-head"><h2 id="deliver-title" class="display-xl reveal-clip">What you get</h2></div>
+      <div class="ledger reveal" data-stagger>
+        {service.deliverables.map((d) => (
+          <div class="ledger__row ledger__row--static"><h3 class="heading-m">{d.title}</h3><p class="body-m text-secondary">{d.text}</p><span></span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-theme="ink" aria-labelledby="how-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <h2 id="how-title" class="display-xl reveal-clip">How we work on it</h2>
+        <a class="btn btn--link reveal" href="/#process">The full six-stage process</a>
+      </div>
+      <ol role="list" class="steps reveal" data-stagger>
+        {service.steps.map((s, i) => (
+          <li class="steps__item"><span class="mono text-accent">0{i + 1}</span><h3 class="heading-s">{s.title}</h3><p class="body-s text-secondary">{s.text}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="benefits-title">
+    <div class="container two-col">
+      <div>
+        <h2 id="benefits-title" class="display-l reveal-clip">What changes for the business</h2>
+        <ul role="list" class="benefits reveal" data-stagger>{service.benefits.map((b) => <li class="body-l">{b}</li>)}</ul>
+      </div>
+      <div class="tech reveal">
+        <h3 class="heading-s text-muted">Technologies we typically use</h3>
+        <ul role="list" class="tech__list label-m">{service.tech.map((t) => <li>{t}</li>)}</ul>
+        {relevantIndustries.length > 0 && (
+          <>
+            <h3 class="heading-s text-muted">Where we have applied it</h3>
+            <ul role="list" class="tech__list label-m">{relevantIndustries.map((i) => <li><a href={`/industries#${i.slug}`}>{i.name}</a></li>)}</ul>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <Faq items={service.faqs} title={`Questions about ${service.name.toLowerCase()}`} />
+
+  <section class="section" id="enquire" aria-labelledby="enquire-title">
+    <div class="container two-col">
+      <div class="enquire__copy">
+        <h2 id="enquire-title" class="display-l reveal-clip">Tell us about the project</h2>
+        <p class="body-m text-secondary reveal">We reply {site.replyTime} with questions, not a brochure. The first conversation is free and ends with a clear next step.</p>
+        <div class="reveal">
+          <h3 class="heading-s text-muted">Related services</h3>
+          <ul role="list" class="related">{related.map((r) => <li><a class="link-draw label-m" href={`/services/${r!.slug}`}>{r!.name}</a></li>)}</ul>
+        </div>
+      </div>
+      <div class="reveal"><EnquiryForm defaultType={service.slug} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .two-col { display: grid; gap: var(--space-7); }
+  @media (min-width: 900px) { .two-col { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-9); align-items: start; } }
+  .signals { display: grid; gap: var(--space-5); }
+  .signals li { padding-left: var(--space-5); border-left: 2px solid var(--border-accent); font-weight: 500; }
+  .ledger__row--static:hover { padding-left: 0; }
+  .steps { display: grid; gap: var(--space-6); }
+  @media (min-width: 760px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+  .steps__item { display: grid; gap: var(--space-3); padding-top: var(--space-5); border-top: 1.5px solid var(--border-default); align-content: start; }
+  .benefits { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
+  .benefits li { display: flex; gap: 12px; }
+  .benefits li::before { content: ''; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--bg-accent); margin-top: 0.55em; }
+  .tech { display: grid; gap: var(--space-4); padding: var(--space-6); border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--bg-page); align-content: start; }
+  .tech__list { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-3); color: var(--text-secondary); }
+  .tech__list a { color: var(--text-accent); }
+  .enquire__copy { display: grid; gap: var(--space-5); align-content: start; }
+  .related { display: grid; gap: var(--space-3); margin-top: var(--space-3); }
+</style>

@@ -1,0 +1,106 @@
+---
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/500.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Crumb { name: string; href: string }
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>[];
+  breadcrumbs?: Crumb[];
+  noindex?: boolean;
+}
+const { title, description, canonical, ogImage = '/og-default.png', type = 'website', jsonLd = [], breadcrumbs = [], noindex = false } = Astro.props;
+const url = new URL(canonical ?? Astro.url.pathname, site.url).href.replace(/\/$/, '') || site.url;
+const ogAbs = new URL(ogImage, site.url).href;
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${site.url}/#organization`,
+  name: site.legalName,
+  alternateName: site.name,
+  url: site.url,
+  logo: `${site.url}/logo.svg`,
+  slogan: site.tagline,
+  description: site.description,
+  email: site.email,
+  telephone: site.phone.replace(/\s/g, ''),
+  address: { '@type': 'PostalAddress', addressLocality: site.address.locality, addressRegion: site.address.region, addressCountry: site.address.country },
+  founder: { '@type': 'Person', name: site.founder.name, jobTitle: site.founder.role },
+  areaServed: 'IN',
+  contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', telephone: site.phone.replace(/\s/g, ''), email: site.email, availableLanguage: ['en', 'hi', 'mr'] }],
+  sameAs: site.social.filter((s) => s.href).map((s) => s.href),
+};
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  publisher: { '@id': `${site.url}/#organization` },
+  inLanguage: 'en-IN',
+};
+const breadcrumbLd = breadcrumbs.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ name: 'Home', href: '/' }, ...breadcrumbs].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.href, site.url).href })),
+    }
+  : null;
+const allLd = [organization, website, ...(breadcrumbLd ? [breadcrumbLd] : []), ...jsonLd];
+---
+<!doctype html>
+<html lang="en-IN" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content={site.themeColor} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.legalName} />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={ogAbs} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogAbs} />
+    <script is:inline>document.documentElement.classList.remove('no-js');</script>
+    {allLd.map((ld) => <script type="application/ld+json" set:html={JSON.stringify(ld)} />)}
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script src="../scripts/motion.ts"></script>
+  </body>
+</html>
+
+<style>
+  .skip { position: absolute; left: 16px; top: -48px; z-index: 100; padding: 10px 14px; background: var(--ink-900); color: var(--fog-50); border-radius: 6px; }
+  .skip:focus { top: 12px; }
+</style>

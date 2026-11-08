@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+import { site } from '../data/site';
+const crumbs = [{ name: 'Insights', href: '/insights' }];
+/** Planned first articles — titles only. Publishing requires written pieces; none exist yet, so this page is noindex until the first article is live. */
+const planned = [
+  { title: 'Why most ERP projects fail in month four, and what to fix in week one', topic: 'Custom software' },
+  { title: 'A plain-language guide to the WhatsApp Business API for Indian businesses', topic: 'Automation' },
+  { title: 'What document AI can and cannot read reliably — measured on real GST filings', topic: 'AI' },
+  { title: 'Posting invoices from a cloud system to on-premise TallyPrime without breaking the books', topic: 'Integration' },
+];
+---
+<Base title="Insights — Notes on Software, Automation and AI for Indian Businesses | Visionqode" description="Practical writing from Visionqode on building ERPs, automating operations with WhatsApp and AI, and integrating Tally, SAP and payments — written for owners and technology leaders." breadcrumbs={crumbs} noindex>
+  <PageHeader title="Notes from building business systems" lede="Short, practical pieces on what works when you automate an Indian business — written from projects, not from press releases. The first articles are in progress." crumbs={crumbs} eyebrow="Insights" />
+  <section class="section section--surface">
+    <div class="container">
+      <h2 class="heading-s text-muted">Coming first</h2>
+      <ol role="list" class="planned reveal" data-stagger>
+        {planned.map((p) => <li class="planned__item needs-approval"><span class="label-s text-muted">{p.topic}</span><h3 class="heading-m">{p.title}</h3><span class="label-s text-muted">In progress</span></li>)}
+      </ol>
+      <p class="body-s text-muted measure" style="margin-top: var(--space-6)">Want to be told when these are published? Email <a href={`mailto:${site.email}?subject=Insights`} class="text-accent">{site.email}</a> with the subject “Insights”. No newsletter list is kept until you ask to be on it.</p>
+    </div>
+  </section>
+  <Cta title="Prefer the conversation to the article?" />
+</Base>
+<style>
+  .planned { display: grid; gap: 0; margin-top: var(--space-5); border-top: 1px solid var(--border-default); }
+  .planned__item { display: grid; gap: var(--space-2); padding-block: var(--space-5); border-bottom: 1px solid var(--border-default); }
+  @media (min-width: 760px) { .planned__item { grid-template-columns: 140px 1fr 120px; align-items: baseline; gap: var(--space-6); } .planned__item :last-child { text-align: right; } }
+</style>

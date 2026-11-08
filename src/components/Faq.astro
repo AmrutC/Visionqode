@@ -1,0 +1,35 @@
+---
+interface Props { items: { q: string; a: string }[]; title?: string; intro?: string }
+const { items, title = 'Questions buyers ask us', intro } = Astro.props;
+---
+<section class="section section--surface" aria-labelledby="faq-title">
+  <div class="container faq">
+    <div class="faq__head">
+      <h2 id="faq-title" class="display-l reveal">{title}</h2>
+      {intro && <p class="body-m text-secondary measure-narrow reveal">{intro}</p>}
+    </div>
+    <div class="faq__list">
+      {items.map((item) => (
+        <details class="faq__item" name="faq">
+          <summary class="heading-s">{item.q}<span class="faq__icon" aria-hidden="true"></span></summary>
+          <p class="body-m text-secondary">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .faq { display: grid; gap: var(--space-7); }
+  @media (min-width: 900px) { .faq { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: var(--space-9); } }
+  .faq__head { display: grid; gap: var(--space-4); align-content: start; }
+  .faq__item { border-top: 1px solid var(--border-default); }
+  .faq__item:last-child { border-bottom: 1px solid var(--border-default); }
+  summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--space-5); padding-block: var(--space-5); }
+  summary::-webkit-details-marker { display: none; }
+  .faq__icon { position: relative; width: 20px; height: 20px; flex: none; }
+  .faq__icon::before, .faq__icon::after { content: ''; position: absolute; inset: 50% auto auto 50%; background: var(--text-accent); transition: transform var(--dur-base) var(--ease-out); }
+  .faq__icon::before { width: 16px; height: 1.5px; transform: translate(-50%, -50%); }
+  .faq__icon::after { width: 1.5px; height: 16px; transform: translate(-50%, -50%); }
+  details[open] .faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .faq__item p { padding-bottom: var(--space-5); max-width: 62ch; }
+</style>

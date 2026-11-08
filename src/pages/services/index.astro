@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Cta from '../../components/Cta.astro';
+import { services } from '../../data/services';
+import { site } from '../../data/site';
+const crumbs = [{ name: 'Services', href: '/services' }];
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Visionqode services',
+  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name, url: `${site.url}/services/${s.slug}` })),
+};
+---
+<Base title="Services — AI, Software, ERP, Apps, Websites & Automation | Visionqode" description="Six disciplines under one roof: AI and intelligent automation, custom software and ERP, web and mobile applications, website design, business process automation, and API integration with UI/UX." breadcrumbs={crumbs} jsonLd={[ld]}>
+  <PageHeader title="Six disciplines. One team that has built the whole system before." lede="Most engagements use three or four of these together — an ERP with WhatsApp automation and a Tally integration, say. Start with the one that matches the problem; we will tell you what else it needs." crumbs={crumbs} eyebrow="Services" />
+  <section class="section section--surface">
+    <div class="container">
+      <div class="services reveal" data-stagger>
+        {services.map((s, i) => (
+          <a class="service" href={`/services/${s.slug}`}>
+            <span class="mono text-muted">0{i + 1}</span>
+            <h2 class="heading-m">{s.name}</h2>
+            <p class="body-m text-secondary">{s.short}</p>
+            <ul role="list" class="service__tags label-s text-muted">{s.deliverables.slice(0, 3).map((d) => <li>{d.title}</li>)}</ul>
+            <span class="service__go label-m text-accent">Read about {s.name.toLowerCase()}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <Cta title="Not sure which one you need?" text="Describe the problem in a sentence. We will map it to the right mix and come back with a plan." />
+</Base>
+<style>
+  .services { display: grid; gap: var(--space-5); }
+  @media (min-width: 760px) { .services { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1100px) { .services { grid-template-columns: repeat(3, 1fr); } }
+  .service { display: grid; gap: var(--space-3); align-content: start; padding: var(--space-6); border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--bg-page); color: inherit; transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+  .service:hover { border-color: var(--border-accent); transform: translateY(-2px); }
+  .service__tags { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: var(--space-2); }
+  .service__go { margin-top: var(--space-3); }
+</style>

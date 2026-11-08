@@ -1,0 +1,9 @@
+---
+/** Lens mark: an open ring (vision) with a solid node (code). */
+interface Props { size?: number }
+const { size = 22 } = Astro.props;
+---
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" class="logo-mark">
+  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.2" />
+  <circle cx="12" cy="12" r="3.6" fill="var(--bg-accent)" />
+</svg>

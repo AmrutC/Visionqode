@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Cta from '../components/Cta.astro';
+import { site, process, platforms, stack } from '../data/site';
+const crumbs = [{ name: 'About', href: '/about' }];
+const principles = [
+  { title: 'Enterprise grade', text: 'Security-first architecture, role-based access, audit trails and processes that would pass a client\'s IT review — built in from the first module, not added for the last one.' },
+  { title: 'AI native', text: 'Language models, OCR and intelligent automation are part of how we design systems. They go where they remove work and are measured against what a person would do.' },
+  { title: 'Outcome driven', text: 'Every engagement is tied to a business metric the owner cares about — closing time, response time, leakage, retention — and reviewed against it after launch.' },
+];
+const aboutLd = { '@context': 'https://schema.org', '@type': 'AboutPage', name: 'About Visionqode', mainEntity: { '@id': `${site.url}/#organization` } };
+---
+<Base title="About Visionqode — Technology Partner for Business Systems, Navi Mumbai" description="Visionqode Private Limited is a technology and digital innovation company in Navi Mumbai led by Roshan Patil. We engineer ERPs, automation, AI systems, websites and apps that help businesses grow." breadcrumbs={crumbs} jsonLd={[aboutLd]}>
+  <PageHeader title="We solve business problems with software. The code is the means." lede={`${site.legalName} is a technology and digital innovation company in ${site.address.locality}, ${site.address.region}. We help founders, owners and technology leaders turn the way their business runs into systems that run it — and then make those systems intelligent.`} crumbs={crumbs} eyebrow="About" />
+
+  <section class="section section--surface">
+    <div class="container about">
+      <div class="about__lead">
+        <h2 class="display-l reveal-clip">What a technology partner should do</h2>
+        <p class="body-l text-secondary reveal">Not hand over software and leave. Understand the operation, build the system around it, connect it to everything else the business uses, and stay to improve it as the business changes. That is the whole model.</p>
+      </div>
+      <dl class="principles reveal" data-stagger>
+        {principles.map((p) => <div class="principle"><dt class="heading-m">{p.title}</dt><dd class="body-m text-secondary">{p.text}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" data-theme="ink">
+    <div class="container lead">
+      <div class="lead__card reveal">
+        <p class="label-s text-muted">Leadership</p>
+        <h2 class="display-l">{site.founder.name}</h2>
+        <p class="heading-s text-secondary">{site.founder.role}</p>
+        <p class="body-m text-secondary needs-approval">Short founder bio — background, years in software, the industries worked in — to be supplied and approved.</p>
+        <ul role="list" class="lead__contact label-m">
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a href={site.phoneHref}>{site.phone}</a></li>
+        </ul>
+      </div>
+      <div class="lead__facts reveal" data-stagger>
+        <div><dt class="label-s text-muted">Company</dt><dd class="heading-s">{site.legalName}</dd></div>
+        <div><dt class="label-s text-muted">Headquarters</dt><dd class="heading-s">{site.address.locality}, {site.address.region}, {site.address.countryName}</dd></div>
+        <div><dt class="label-s text-muted">Clients</dt><dd class="heading-s">Across India, with international engagements delivered remotely</dd></div>
+        <div class="needs-approval"><dt class="label-s text-muted">Founded</dt><dd class="heading-s">Year to be confirmed</dd></div>
+        <div class="needs-approval"><dt class="label-s text-muted">Team</dt><dd class="heading-s">Size and disciplines to be confirmed</dd></div>
+        <div class="needs-approval"><dt class="label-s text-muted">Registration</dt><dd class="heading-s">CIN / GSTIN to be added</dd></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div class="section-head"><h2 class="display-xl reveal-clip">How a project runs</h2></div>
+      <ol role="list" class="process reveal" data-stagger>
+        {process.map((p) => <li class="process__step"><span class="mono text-accent">{p.n}</span><h3 class="heading-s">{p.title}</h3><p class="body-s text-secondary">{p.text}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container tools">
+      <div><h2 class="heading-s text-muted">Platforms we integrate</h2><ul role="list" class="tools__list label-m text-secondary">{platforms.map((p) => <li>{p}</li>)}</ul></div>
+      <div><h2 class="heading-s text-muted">What we build with</h2><ul role="list" class="tools__list label-m text-secondary">{stack.map((p) => <li>{p}</li>)}</ul></div>
+    </div>
+  </section>
+  <Cta title="Working with us starts with a conversation about the business." text="Thirty minutes, no slides. We ask about the operation; you leave with a clearer picture of what to build first." />
+</Base>
+<style>
+  .about { display: grid; gap: var(--space-7); }
+  @media (min-width: 900px) { .about { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-9); } }
+  .about__lead { display: grid; gap: var(--space-4); align-content: start; }
+  .principles { display: grid; gap: 0; margin: 0; }
+  .principle { display: grid; gap: var(--space-2); padding-block: var(--space-5); border-top: 1px solid var(--border-default); }
+  .principle dd { margin: 0; }
+  .lead { display: grid; gap: var(--space-7); }
+  @media (min-width: 900px) { .lead { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-9); } }
+  .lead__card { display: grid; gap: var(--space-3); padding: var(--space-6); border: 1px solid var(--border-default); border-radius: var(--radius-md); align-content: start; }
+  .lead__contact { display: grid; gap: 6px; margin-top: var(--space-3); }
+  .lead__contact a { color: var(--text-accent); }
+  .lead__facts { display: grid; gap: var(--space-5); grid-template-columns: 1fr 1fr; align-content: start; }
+  .lead__facts dd { margin: 4px 0 0; }
+  .process { display: grid; gap: var(--space-6); }
+  @media (min-width: 640px) { .process { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .process { grid-template-columns: repeat(3, 1fr); } }
+  .process__step { display: grid; gap: var(--space-3); padding-top: var(--space-5); border-top: 1.5px solid var(--border-default); align-content: start; }
+  .tools { display: grid; gap: var(--space-6); }
+  @media (min-width: 900px) { .tools { grid-template-columns: 1fr 1fr; gap: var(--space-9); } }
+  .tools__list { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-3); }
+</style>
