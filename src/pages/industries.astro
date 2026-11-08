@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
-import Schematic from '../components/Schematic.astro';
+import IndustryVignette from '../components/IndustryVignette.astro';
 import Cta from '../components/Cta.astro';
 import { industries } from '../data/industries';
 import { getService } from '../data/services';
@@ -16,7 +16,7 @@ const crumbs = [{ name: 'Industries', href: '/industries' }];
     <div class="container inds">
       {industries.map((ind, i) => (
         <article class="ind" id={ind.slug}>
-          <div class="ind__visual reveal"><Schematic compact nodes={ind.schematic.nodes} status={ind.schematic.status} caption={`Fig. 0${i + 1} — ${ind.name}`} /></div>
+          <div class="ind__visual reveal card"><IndustryVignette slug={ind.slug} tone={tones[i % tones.length]} /></div>
           <div class="ind__copy">
             <span class={`tile tile--${tones[i % tones.length]} reveal`}><Icon name={industryMeta[ind.slug] as any} /></span>
             <h2 class="display-l reveal-clip">{ind.name}</h2>
@@ -38,7 +38,7 @@ const crumbs = [{ name: 'Industries', href: '/industries' }];
   .inds { display: grid; gap: clamp(64px, 8vw, 112px); }
   .ind { display: grid; gap: var(--space-6); scroll-margin-top: 100px; }
   @media (min-width: 900px) { .ind { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-9); align-items: center; } .ind:nth-child(even) .ind__visual { order: 2; } }
-  .ind__visual { padding: var(--space-5); border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--border-default); box-shadow: var(--shadow-card); }
+  .ind__visual { padding: var(--space-3); }
   .ind__copy { display: grid; gap: var(--space-4); }
   .ind__points { display: grid; gap: 8px; padding-left: 1.1em; list-style: disc; color: var(--text-secondary); }
   .ind__services { display: grid; gap: var(--space-2); margin-top: var(--space-3); }

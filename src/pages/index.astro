@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Schematic from '../components/Schematic.astro';
+import IndustryVignette from '../components/IndustryVignette.astro';
 import KpiBoard from '../components/KpiBoard.astro';
 import Marquee from '../components/Marquee.astro';
 import Faq from '../components/Faq.astro';
@@ -163,9 +163,7 @@ const why = [
       <div class="industries reveal" data-stagger>
         {industries.slice(0, 4).map((ind, i) => (
           <article class="card industry">
-            <div class="industry__visual" aria-hidden="true">
-              <Schematic compact nodes={ind.schematic.nodes} status={ind.schematic.status} caption="" />
-            </div>
+            <IndustryVignette slug={ind.slug} tone={tones[i % tones.length]} />
             <div class="industry__copy">
               <span class={`tile tile--${tones[i % tones.length]}`}><Icon name={industryMeta[ind.slug] as any} /></span>
               <h3 class="heading-m">{ind.name}</h3>
@@ -289,10 +287,8 @@ const why = [
   /* industries */
   .industries { display: grid; gap: var(--space-5); }
   @media (min-width: 900px) { .industries { grid-template-columns: 1fr 1fr; } }
-  .industry { gap: var(--space-5); }
-  @media (min-width: 640px) { .industry { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; } }
-  .industry__visual { padding: var(--space-3); border-radius: var(--radius-sm); background: var(--bg-milk); }
-  .industry__visual :global(figcaption) { display: none; }
+  .industry { gap: var(--space-5); padding: var(--space-4) var(--space-4) var(--space-6); }
+  .industry__copy { padding-inline: var(--space-3); }
   .industry__copy { display: grid; gap: var(--space-3); justify-items: start; }
   .industry__points { display: grid; gap: 6px; }
   .industry__points li { display: flex; gap: 8px; align-items: flex-start; }

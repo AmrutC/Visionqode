@@ -1,0 +1,133 @@
+---
+/**
+ * Industry vignettes — small product-screen illustrations (pure HTML/CSS) that
+ * show what the software looks like for each industry. Demo content.
+ */
+import Icon from './Icon.astro';
+interface Props { slug: string; tone?: string }
+const { slug, tone = 'blue' } = Astro.props;
+---
+<div class={`vig vig--${tone} vig--${slug}`} aria-hidden="true">
+  <div class="vig__bg"></div>
+
+  {slug === 'logistics' && (
+    <div class="vig__phone">
+      <div class="vig__bar"><span>Gate · Yard A</span><span class="vig__chip vig__chip--green">Live</span></div>
+      <div class="vig__row vig__row--hero"><span class="tile tile--blue"><Icon name="truck" size={18} /></span><div><strong>MSKU 482 119-0</strong><small>40' HC · Gate-in 09:42</small></div><span class="vig__chip">In yard</span></div>
+      <div class="vig__steps"><i class="is-done"></i><i class="is-done"></i><i class="is-now"></i><i></i></div>
+      <div class="vig__legend"><span>Gate-in</span><span>Survey</span><span>Repair</span><span>Release</span></div>
+      <div class="vig__row"><span class="tile tile--gold"><Icon name="doc" size={16} /></span><div><strong>Estimate EST-2291</strong><small>₹ 18,400 · awaiting liner approval</small></div></div>
+      <div class="vig__row"><span class="tile tile--green"><Icon name="check" size={16} /></span><div><strong>Invoice posted to Tally</strong><small>IRN generated · e-invoice OK</small></div></div>
+    </div>
+  )}
+
+  {slug === 'real-estate' && (
+    <div class="vig__panel">
+      <div class="vig__bar"><span>Tower A · G+7</span><span class="vig__chip vig__chip--navy">38 units</span></div>
+      <div class="vig__kpis"><div><small>Booked</small><strong>26<span>/38</span></strong></div><div><small>Collected</small><strong>₹ 14.2 Cr</strong></div><div><small>Slab</small><strong>6<span>/8</span></strong></div></div>
+      <div class="vig__progress"><span style="--w:72%"></span></div>
+      <div class="vig__row"><span class="tile tile--green"><Icon name="building" size={16} /></span><div><strong>Milestone 6 reached</strong><small>Demand letters sent to 26 buyers</small></div><span class="vig__chip vig__chip--green">Auto</span></div>
+      <div class="vig__row"><span class="tile tile--red"><Icon name="clock" size={16} /></span><div><strong>PO-233 over budget</strong><small>Escalated to director · 3-way match failed</small></div></div>
+    </div>
+  )}
+
+  {slug === 'professional-services' && (
+    <div class="vig__panel">
+      <div class="vig__bar"><span>Compliance desk</span><span class="vig__chip vig__chip--red">Due in 4 days</span></div>
+      <ul class="vig__checks">
+        <li class="is-done"><i></i><div><strong>GSTR-3B · Client 17</strong><small>Verified by AI · 96% confidence</small></div></li>
+        <li class="is-done"><i></i><div><strong>TDS return Q2</strong><small>Filed · acknowledgement saved</small></div></li>
+        <li class="is-now"><i></i><div><strong>ROC annual filing</strong><small>Awaiting director's e-signature</small></div></li>
+        <li><i></i><div><strong>ITR · 3 partners</strong><small>Documents requested on WhatsApp</small></div></li>
+      </ul>
+    </div>
+  )}
+
+  {slug === 'retail-ecommerce' && (
+    <div class="vig__phone">
+      <div class="vig__bar"><span>Order #10482</span><span class="vig__chip vig__chip--green">Out for delivery</span></div>
+      <div class="vig__map"><span class="vig__route"></span><span class="vig__pin vig__pin--a"></span><span class="vig__pin vig__pin--b"></span><span class="vig__rider"><Icon name="truck" size={14} /></span></div>
+      <div class="vig__row"><span class="tile tile--blue"><Icon name="cart" size={16} /></span><div><strong>3 items · ₹ 2,340</strong><small>Razorpay · paid 11:02</small></div></div>
+      <div class="vig__row"><span class="tile tile--gold"><Icon name="chat" size={16} /></span><div><strong>WhatsApp update sent</strong><small>"Arriving in 18 min"</small></div></div>
+    </div>
+  )}
+
+  {slug === 'healthcare-education' && (
+    <div class="vig__panel">
+      <div class="vig__bar"><span>OPD · Today</span><span class="vig__chip">42 patients</span></div>
+      <div class="vig__sched">
+        <div class="is-done"><small>09:00</small><strong>Dr. Mehta · Follow-up</strong></div>
+        <div class="is-now"><small>09:30</small><strong>Lab results shared on WhatsApp</strong></div>
+        <div><small>10:00</small><strong>Pharmacy · bill #3391</strong></div>
+      </div>
+      <div class="vig__row"><span class="tile tile--green"><Icon name="heart" size={16} /></span><div><strong>Discharge summary</strong><small>Generated · sent to patient</small></div></div>
+    </div>
+  )}
+
+  {slug === 'manufacturing' && (
+    <div class="vig__panel">
+      <div class="vig__bar"><span>Plant 2 · Line B</span><span class="vig__chip vig__chip--green">Running</span></div>
+      <div class="vig__kpis"><div><small>Batch</small><strong>B-1187</strong></div><div><small>QC pass</small><strong>99.2%</strong></div><div><small>Stock</small><strong>Reconciled</strong></div></div>
+      <div class="vig__bars"><i style="--h:60%"></i><i style="--h:72%"></i><i style="--h:55%"></i><i style="--h:84%"></i><i style="--h:91%"></i><i style="--h:78%"></i><i style="--h:96%"></i></div>
+      <div class="vig__row"><span class="tile tile--navy"><Icon name="factory" size={16} /></span><div><strong>PO raised to vendor</strong><small>Below reorder level · auto</small></div></div>
+    </div>
+  )}
+</div>
+
+<style>
+  .vig { position: relative; display: grid; place-items: center; padding: 26px 22px; border-radius: var(--radius-md); overflow: hidden; min-height: 300px; isolation: isolate; font-family: var(--font-body); color: var(--ink-900); }
+  .vig__bg { position: absolute; inset: 0; z-index: -1; background: radial-gradient(120% 90% at 20% 0%, var(--vig-a) 0%, transparent 55%), radial-gradient(90% 90% at 100% 100%, var(--vig-b) 0%, transparent 60%), var(--milk-100); }
+  .vig--blue { --vig-a: var(--blue-100); --vig-b: var(--gold-100); }
+  .vig--green { --vig-a: var(--green-100); --vig-b: var(--blue-100); }
+  .vig--red { --vig-a: var(--red-100); --vig-b: var(--gold-100); }
+  .vig--navy { --vig-a: var(--navy-100); --vig-b: var(--blue-100); }
+  .vig--gold { --vig-a: var(--gold-100); --vig-b: var(--green-100); }
+  .vig__phone, .vig__panel { width: 100%; max-width: 320px; display: grid; gap: 10px; padding: 14px; border-radius: 18px; background: var(--white); border: 1px solid var(--border-default); box-shadow: 0 24px 50px -30px rgba(22, 26, 51, 0.55); transform: rotate(-1.5deg); transition: transform var(--dur-slow) var(--ease-out); }
+  .vig__panel { max-width: 380px; border-radius: 14px; transform: rotate(1deg); }
+  :global(.card:hover) .vig__phone, :global(.card:hover) .vig__panel { transform: rotate(0) translateY(-4px); }
+  .vig__bar { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+  .vig__chip { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--blue-100); color: var(--blue-700); }
+  .vig__chip--green { background: var(--green-100); color: var(--green-700); }
+  .vig__chip--red { background: var(--red-100); color: var(--red-700); }
+  .vig__chip--navy { background: var(--navy-100); color: var(--navy-600); }
+  .vig__row { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--milk-100); font-size: 12px; }
+  .vig__row--hero { background: var(--white); border: 1px solid var(--border-default); }
+  .vig__row strong { display: block; font-size: 13px; font-weight: 600; line-height: 1.2; }
+  .vig__row small { display: block; color: var(--text-muted); font-size: 11px; margin-top: 2px; }
+  .vig__row .tile { width: 30px; height: 30px; border-radius: 8px; }
+  .vig__steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .vig__steps i { height: 6px; border-radius: 3px; background: var(--milk-200); }
+  .vig__steps .is-done { background: var(--green-600); }
+  .vig__steps .is-now { background: var(--blue-600); animation: blink 1.6s ease-in-out infinite; }
+  .vig__legend { display: grid; grid-template-columns: repeat(4, 1fr); font-size: 10px; color: var(--text-muted); text-align: center; }
+  .vig__kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .vig__kpis div { padding: 8px 10px; border-radius: 10px; background: var(--milk-100); }
+  .vig__kpis small { display: block; font-size: 10px; color: var(--text-muted); }
+  .vig__kpis strong { font-family: var(--font-display); font-size: 15px; letter-spacing: -0.02em; }
+  .vig__kpis strong span { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+  .vig__progress { height: 8px; border-radius: 4px; background: var(--milk-200); overflow: hidden; }
+  .vig__progress span { display: block; height: 100%; width: var(--w); border-radius: 4px; background: linear-gradient(90deg, var(--blue-600), var(--gold-600)); }
+  .vig__checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .vig__checks li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: center; font-size: 12px; padding: 6px 4px; }
+  .vig__checks i { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--milk-300); }
+  .vig__checks .is-done i { background: var(--green-600); border-color: var(--green-600); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E"); background-size: 12px; background-position: center; background-repeat: no-repeat; }
+  .vig__checks .is-now i { border-color: var(--blue-600); animation: blink 1.6s ease-in-out infinite; }
+  .vig__checks strong { display: block; font-size: 13px; font-weight: 600; }
+  .vig__checks small { display: block; font-size: 11px; color: var(--text-muted); }
+  .vig__map { position: relative; height: 110px; border-radius: 12px; background: var(--milk-100); background-image: linear-gradient(rgba(22,26,51,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(22,26,51,.06) 1px, transparent 1px); background-size: 18px 18px; overflow: hidden; }
+  .vig__route { position: absolute; left: 14%; top: 70%; width: 72%; height: 3px; background: var(--blue-500); border-radius: 2px; transform: rotate(-22deg); transform-origin: left; }
+  .vig__pin { position: absolute; width: 12px; height: 12px; border-radius: 50%; border: 3px solid var(--white); box-shadow: 0 0 0 2px currentColor; }
+  .vig__pin--a { left: 11%; top: 64%; color: var(--navy-600); background: var(--navy-600); }
+  .vig__pin--b { right: 12%; top: 20%; color: var(--red-600); background: var(--red-600); }
+  .vig__rider { position: absolute; left: 44%; top: 46%; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--white); color: var(--blue-700); box-shadow: var(--shadow-card); animation: ride 4s ease-in-out infinite alternate; }
+  @keyframes ride { from { transform: translate(-28px, 14px) } to { transform: translate(28px, -14px) } }
+  .vig__sched { display: grid; gap: 6px; }
+  .vig__sched div { display: grid; grid-template-columns: 44px 1fr; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--milk-100); font-size: 12px; border-left: 3px solid var(--milk-300); }
+  .vig__sched .is-done { border-left-color: var(--green-600); } .vig__sched .is-now { border-left-color: var(--blue-600); background: var(--blue-50); }
+  .vig__sched small { color: var(--text-muted); font-size: 11px; } .vig__sched strong { font-weight: 600; font-size: 12.5px; }
+  .vig__bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; height: 70px; align-items: end; padding: 6px 4px 0; }
+  .vig__bars i { display: block; height: var(--h); border-radius: 4px 4px 2px 2px; background: linear-gradient(180deg, var(--blue-400), var(--blue-600)); }
+  .vig__bars i:nth-child(5), .vig__bars i:nth-child(7) { background: linear-gradient(180deg, #e8cd8e, var(--gold-600)); }
+  @keyframes blink { 50% { opacity: .45; } }
+  @media (prefers-reduced-motion: reduce) { .vig__rider, .vig__steps .is-now, .vig__checks .is-now i { animation: none; } }
+</style>
