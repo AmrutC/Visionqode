@@ -1,0 +1,169 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import IndustryVignette from '../../components/IndustryVignette.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import Faq from '../../components/Faq.astro';
+import Icon from '../../components/Icon.astro';
+import { industries } from '../../data/industries';
+import { industryPages } from '../../data/industryPages';
+import { getService } from '../../data/services';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return industries.map((ind) => ({ params: { slug: ind.slug }, props: { ind } }));
+}
+const { ind } = Astro.props;
+const page = industryPages[ind.slug];
+const iconFor: Record<string, string> = { logistics: 'truck', 'real-estate': 'building', 'professional-services': 'scale', 'retail-ecommerce': 'cart', 'healthcare-education': 'heart', manufacturing: 'factory' };
+const svcIcon: Record<string, string> = { 'ai-automation': 'brain', 'custom-software-erp': 'layers', 'web-mobile-apps': 'device', 'website-design': 'globe', 'process-automation': 'workflow', 'api-integration': 'plug' };
+const involved = ind.services.map(getService).filter(Boolean);
+const others = industries.filter((i) => i.slug !== ind.slug);
+const crumbs = [{ name: 'Industries', href: '/industries' }, { name: ind.name, href: `/industries/${ind.slug}` }];
+const serviceLd = {
+  '@context': 'https://schema.org', '@type': 'Service',
+  name: `Software for ${ind.name.toLowerCase()}`, serviceType: `${ind.name} software`,
+  description: page.metaDescription, provider: { '@id': `${site.url}/#organization` },
+  areaServed: { '@type': 'Country', name: 'India' }, url: `${site.url}/industries/${ind.slug}`,
+};
+const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: page.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title={page.title} description={page.metaDescription} breadcrumbs={crumbs} jsonLd={[serviceLd, faqLd]}>
+  <section class="ihero" data-theme="navy" data-nav-dark data-zone>
+    <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container ihero__grid">
+      <div class="ihero__copy">
+        <Breadcrumbs items={crumbs} />
+        <p class="eyebrow" style="--dot: var(--gold-600)">{ind.name}</p>
+        <h1 class="ihero__title" style="view-transition-name: page-title">{ind.headline}</h1>
+        <p class="body-l text-secondary">{ind.text}</p>
+        <div class="ihero__actions">
+          <a class="btn btn--primary" href="#enquire" data-magnetic>Book a free call <Icon name="arrowUp" size={16} /></a>
+          <a class="btn btn--secondary" href="#modules">See what we build</a>
+        </div>
+      </div>
+      <div class="ihero__visual" data-tilt>
+        <div class="ihero__frame" data-tilt-target data-theme="light"><IndustryVignette slug={ind.slug} tone="blue" /></div>
+        <p class="ihero__note">Illustrative screen — demo data</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--milk" aria-labelledby="signals-title">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow dot-blue reveal">Where it usually hurts</p><h2 id="signals-title" class="display-xl reveal-clip">Sound familiar?</h2></div>
+      <ul role="list" class="signals" data-stagger>
+        {page.signals.map((s, i) => <li class="signal card"><span class="signal__n">0{i + 1}</span><p class="heading-s">{s}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="modules" aria-labelledby="modules-title">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow dot-blue reveal">What we build</p><h2 id="modules-title" class="display-xl reveal-clip">The system, module by module</h2><p class="body-l text-secondary measure reveal">Start with the part that hurts most. Every module shares one data model, so the next one plugs in rather than bolts on.</p></div>
+      <div class="modules" data-stagger="3">
+        {page.modules.map((m) => (
+          <article class="module card">
+            <span class="tile tile--blue"><Icon name={m.icon as any} /></span>
+            <h3 class="heading-m">{m.title}</h3>
+            <p class="body-m text-secondary">{m.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band flowband" data-theme="navy" data-nav-dark aria-labelledby="flow-title">
+    <div class="aurora aurora--soft" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container">
+      <div class="section-head"><p class="eyebrow" style="--dot: var(--gold-600)">How the work flows</p><h2 id="flow-title" class="display-xl reveal-clip">One record, from first step to last</h2></div>
+      <ol role="list" class="flow" data-stagger>
+        {page.flow.map((f, i) => (
+          <li class="flow__step"><span class="flow__dot">{i + 1}</span><h3 class="heading-s">{f.title}</h3><p class="body-s text-secondary">{f.text}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="connect-title">
+    <div class="container two-col">
+      <div class="connect">
+        <h2 id="connect-title" class="display-l reveal-clip">Connects with what you already run</h2>
+        <p class="body-m text-secondary reveal">We integrate rather than replace wherever an existing tool does its job.</p>
+        <ul role="list" class="connect__list reveal" data-stagger>{page.integrations.map((t, i) => <li class={`pill ${['dot-blue', 'dot-navy', 'dot-gold'][i % 3]}`}>{t}</li>)}</ul>
+      </div>
+      <div class="involved">
+        <h3 class="heading-s text-muted reveal">Services involved</h3>
+        <ul role="list" class="involved__list" data-stagger>
+          {involved.map((s) => (
+            <li><a class="involved__item card" href={`/services/${s!.slug}`}><span class="tile tile--blue"><Icon name={svcIcon[s!.slug] as any} /></span><span><strong class="heading-s">{s!.name}</strong><span class="body-s text-secondary">{s!.short}</span></span><Icon name="arrowUp" size={18} /></a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={page.faqs} title={`Questions from ${ind.shortName.toLowerCase()} teams`} />
+
+  <section class="section section--milk" id="enquire" aria-labelledby="enquire-title">
+    <div class="container two-col">
+      <div class="enquire__copy">
+        <h2 id="enquire-title" class="display-l reveal-clip">Tell us how your operation runs</h2>
+        <p class="body-m text-secondary reveal">We reply {site.replyTime} with questions, not a brochure. The first conversation is free and ends with a clear next step.</p>
+        <div class="reveal">
+          <h3 class="heading-s text-muted">Other industries</h3>
+          <ul role="list" class="others">{others.map((o) => <li><a class="link-draw label-m" href={`/industries/${o.slug}`}>{o.name}</a></li>)}</ul>
+        </div>
+      </div>
+      <div class="reveal"><EnquiryForm defaultType={ind.services[0]} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ihero { position: relative; isolation: isolate; overflow: hidden; margin-top: calc(var(--nav-h) * -1); background: var(--navy-900); color: var(--text-primary); padding-block: calc(var(--nav-h) + clamp(32px, 4vw, 64px)) clamp(48px, 6vw, 88px); border-radius: 0 0 var(--radius-xl) var(--radius-xl); }
+  .ihero__grid { position: relative; display: grid; gap: var(--space-7); align-items: center; }
+  @media (min-width: 980px) { .ihero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-8); } }
+  .ihero__copy { display: grid; gap: var(--space-4); justify-items: start; }
+  .ihero__title { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.2rem, 1rem + 3.6vw, 4rem); letter-spacing: -0.04em; line-height: 1.04; text-wrap: balance; }
+  .ihero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-3); }
+  .ihero__visual { perspective: 1400px; display: grid; gap: var(--space-3); justify-items: center; }
+  .ihero__frame { width: min(100%, 520px); padding: var(--space-3); border-radius: var(--radius-lg); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); box-shadow: 0 40px 90px -30px rgba(0,0,0,.6); transform: rotateY(-8deg) rotateX(4deg); transition: transform var(--dur-slow) var(--ease-out); transform-style: preserve-3d; }
+  @media (max-width: 979px), (prefers-reduced-motion: reduce) { .ihero__frame { transform: none; } }
+  .ihero__note { font-size: var(--label-s); color: rgba(255,255,255,.5); }
+
+  .signals { display: grid; gap: var(--space-5); }
+  @media (min-width: 860px) { .signals { grid-template-columns: repeat(3, 1fr); } }
+  .signal { display: grid; gap: var(--space-4); align-content: start; padding: var(--space-6); }
+  .signal__n { font-family: var(--font-display); font-weight: 800; font-size: 2.6rem; line-height: 1; color: transparent; -webkit-text-stroke: 1.2px var(--gold-600); }
+  .signal p { font-weight: 500; }
+
+  .modules { display: grid; gap: var(--space-5); }
+  @media (min-width: 700px) { .modules { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .modules { grid-template-columns: repeat(3, 1fr); } }
+  .module { display: grid; gap: var(--space-3); align-content: start; padding: var(--space-6); }
+
+  .flowband { position: relative; overflow: hidden; isolation: isolate; background: var(--grad-navy); }
+  .flow { position: relative; display: grid; gap: var(--space-6); }
+  .flow__step { position: relative; display: grid; gap: var(--space-2); align-content: start; padding-left: 60px; }
+  .flow__dot { position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--gold-600); color: var(--ink-900); font-family: var(--font-display); font-weight: 700; box-shadow: 0 0 0 6px rgba(212,172,92,.16); }
+  .flow__step:not(:last-child)::before { content: ''; position: absolute; left: 20px; top: 48px; bottom: -28px; width: 2px; background: linear-gradient(var(--gold-600), rgba(212,172,92,.1)); }
+  @media (min-width: 900px) {
+    .flow { grid-template-columns: repeat(5, 1fr); gap: var(--space-5); }
+    .flow__step { padding-left: 0; padding-top: 64px; }
+    .flow__step:not(:last-child)::before { left: 52px; right: -12px; top: 20px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, var(--gold-600), rgba(212,172,92,.15)); }
+  }
+
+  .two-col { display: grid; gap: var(--space-7); }
+  @media (min-width: 900px) { .two-col { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-9); align-items: start; } }
+  .connect { display: grid; gap: var(--space-4); align-content: start; }
+  .connect__list { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
+  .involved { display: grid; gap: var(--space-4); }
+  .involved__list { display: grid; gap: var(--space-3); }
+  .involved__item { display: grid; grid-template-columns: auto 1fr auto; gap: var(--space-4); align-items: center; padding: var(--space-4) var(--space-5); color: inherit; }
+  .involved__item > span:nth-child(2) { display: grid; gap: 2px; }
+  .involved__item :global(svg:last-child) { color: var(--text-muted); transition: transform var(--dur-base) var(--ease-out), color var(--dur-base); }
+  .involved__item:hover :global(svg:last-child) { transform: translate(3px, -3px); color: var(--blue-600, #0575E6); }
+  .enquire__copy { display: grid; gap: var(--space-5); align-content: start; }
+  .others { display: grid; gap: var(--space-3); margin-top: var(--space-3); }
+</style>

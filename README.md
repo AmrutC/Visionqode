@@ -31,6 +31,11 @@ The homepage was rebuilt to be more cinematic; inner pages picked up the same da
 - **Navigation changes skin** over dark sections: any element with `data-nav-dark` turns the nav dark while it sits under it.
 - Still no animation libraries. Everything is transform/opacity and off under `prefers-reduced-motion`.
 
+## Industry pages and offline copy
+
+- Each industry now has its own page at `/industries/<slug>` (six pages) — problems, modules, how the work flows, integrations, services involved, FAQ (with `FAQPage` JSON-LD) and the enquiry form. Content is in `src/data/industryPages.ts`; it describes the kind of system built and claims no clients or numbers.
+- `node scripts/offline.mjs` (after a build) writes `dist-offline/`: all 23 pages with relative links and inlined scripts, so the site opens by double-clicking `index.html` with every link working. Use `dist/` for hosting, `dist-offline/` only for reviewing locally.
+
 ## Commands
 
 ```bash
@@ -38,6 +43,7 @@ npm install          # once
 npm run dev          # local dev server on http://localhost:4321
 npm run build        # production build → dist/
 npm run preview      # serve dist/ locally
+node scripts/offline.mjs  # after build: click-through copy in dist-offline/
 node scripts/og.mjs  # regenerate public/og-default.png + apple-touch-icon.png
 ```
 

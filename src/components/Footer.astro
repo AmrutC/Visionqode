@@ -1,6 +1,7 @@
 ---
 import { site, nav } from '../data/site';
 import { services } from '../data/services';
+import { industries } from '../data/industries';
 import Logo from './Logo.astro';
 const year = new Date().getFullYear();
 ---
@@ -20,6 +21,10 @@ const year = new Date().getFullYear();
       <nav aria-label="Services" class="footer__col">
         <h2 class="label-m">Services</h2>
         <ul role="list">{services.map((s) => <li><a class="body-s" href={`/services/${s.slug}`}>{s.name}</a></li>)}</ul>
+      </nav>
+      <nav aria-label="Industries" class="footer__col">
+        <h2 class="label-m">Industries</h2>
+        <ul role="list">{industries.map((i) => <li><a class="body-s" href={`/industries/${i.slug}`}>{i.name}</a></li>)}</ul>
       </nav>
       <nav aria-label="Company" class="footer__col">
         <h2 class="label-m">Company</h2>
@@ -51,7 +56,7 @@ const year = new Date().getFullYear();
   .footer__mark { font-family: var(--font-display); font-weight: 800; font-size: clamp(4rem, 17.5vw, 17rem); line-height: .78; letter-spacing: -0.06em; text-align: center; white-space: nowrap; margin-top: var(--space-6); color: transparent; background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,0) 85%); -webkit-background-clip: text; background-clip: text; user-select: none; pointer-events: none; margin-bottom: -0.12em; }
   .footer__grid { display: grid; gap: var(--space-7); grid-template-columns: 1fr; }
   @media (min-width: 720px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1024px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-8); } }
+  @media (min-width: 1024px) { .footer__grid { grid-template-columns: 1.3fr 1fr 1fr .8fr 1fr; gap: var(--space-7); } }
   .footer__logo { display: inline-flex; align-items: center; gap: 10px; color: var(--text-primary); margin-bottom: var(--space-4); }
   .footer__brand p { margin-bottom: var(--space-5); }
   .footer__social { display: flex; flex-wrap: wrap; gap: var(--space-4); }

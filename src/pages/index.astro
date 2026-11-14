@@ -168,7 +168,7 @@ const terms = [
                 <span class="slide__n">0{i + 1}</span>
                 <h3 class="heading-m"><Icon name={industryIcons[ind.slug] as any} size={22} />{ind.name}</h3>
                 <p class="body-m text-secondary">{ind.headline}</p>
-                <a class="btn btn--link label-m" href={`/industries#${ind.slug}`}>{ind.shortName} in detail <Icon name="arrow" size={16} /></a>
+                <a class="btn btn--link label-m" href={`/industries/${ind.slug}`}>{ind.shortName} in detail <Icon name="arrow" size={16} /></a>
               </div>
             </article>
           ))}

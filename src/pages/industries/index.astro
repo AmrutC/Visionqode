@@ -1,11 +1,11 @@
 ---
-import Base from '../layouts/Base.astro';
-import PageHeader from '../components/PageHeader.astro';
-import IndustryVignette from '../components/IndustryVignette.astro';
-import Cta from '../components/Cta.astro';
-import { industries } from '../data/industries';
-import { getService } from '../data/services';
-import Icon from '../components/Icon.astro';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import IndustryVignette from '../../components/IndustryVignette.astro';
+import Cta from '../../components/Cta.astro';
+import { industries } from '../../data/industries';
+import { getService } from '../../data/services';
+import Icon from '../../components/Icon.astro';
 const industryMeta: Record<string, string> = { logistics: 'truck', 'real-estate': 'building', 'professional-services': 'scale', 'retail-ecommerce': 'cart', 'healthcare-education': 'heart', manufacturing: 'factory' };
 const tones = ['blue', 'navy', 'gold'];
 const crumbs = [{ name: 'Industries', href: '/industries' }];
@@ -27,6 +27,7 @@ const crumbs = [{ name: 'Industries', href: '/industries' }];
               <span class="label-s text-muted">Services involved</span>
               <ul role="list">{ind.services.map((s) => { const sv = getService(s)!; return <li><a class="link-draw label-m" href={`/services/${sv.slug}`}>{sv.name}</a></li>; })}</ul>
             </div>
+            <a class="btn btn--primary ind__cta reveal" href={`/industries/${ind.slug}`}>{ind.shortName} in detail <Icon name="arrowUp" size={16} /></a>
           </div>
         </article>
       ))}
@@ -42,5 +43,6 @@ const crumbs = [{ name: 'Industries', href: '/industries' }];
   .ind__copy { display: grid; gap: var(--space-4); }
   .ind__points { display: grid; gap: 8px; padding-left: 1.1em; list-style: disc; color: var(--text-secondary); }
   .ind__services { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+  .ind__cta { justify-self: start; margin-top: var(--space-2); }
   .ind__services ul { display: flex; flex-wrap: wrap; gap: var(--space-4); }
 </style>
