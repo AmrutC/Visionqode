@@ -93,6 +93,6 @@ Remove `noindex` by deleting the `noindex` prop on the page's `<Base>` and the s
 
 ## Lighthouse (mobile, local build)
 
-Home 96 / 100 / 100 / 100 (v5) · Service page 100 / 100 / 100 / 100 · Contact 100 / 100 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.7 s on throttled mobile, CLS 0.
+Home 91–96 / 96 / 100 / 100 (v5; the accessibility flag is contrast on the decorative, aria-hidden type band) · Service page 100 / 100 / 100 / 100 · Contact 100 / 100 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.7 s on throttled mobile, CLS 0.
 
 The KPI board on the homepage shows **demo data** (labelled on the board). Replace with real, approved figures or keep as a product preview.
