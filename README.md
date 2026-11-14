@@ -44,6 +44,7 @@ npm run dev          # local dev server on http://localhost:4321
 npm run build        # production build → dist/
 npm run preview      # serve dist/ locally
 node scripts/offline.mjs  # after build: click-through copy in dist-offline/
+node scripts/all-in-one.mjs  # after build: every page in ONE file → dist-single/visionqode-full.html
 node scripts/og.mjs  # regenerate public/og-default.png + apple-touch-icon.png
 ```
 
