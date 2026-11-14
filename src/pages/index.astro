@@ -17,13 +17,13 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
 const serviceMeta: Record<string, { icon: string; tone: string }> = {
   'ai-automation': { icon: 'brain', tone: 'blue' },
   'custom-software-erp': { icon: 'layers', tone: 'navy' },
-  'web-mobile-apps': { icon: 'device', tone: 'green' },
-  'website-design': { icon: 'globe', tone: 'red' },
-  'process-automation': { icon: 'workflow', tone: 'gold' },
-  'api-integration': { icon: 'plug', tone: 'blue' },
+  'web-mobile-apps': { icon: 'device', tone: 'gold' },
+  'website-design': { icon: 'globe', tone: 'blue' },
+  'process-automation': { icon: 'workflow', tone: 'navy' },
+  'api-integration': { icon: 'plug', tone: 'gold' },
 };
 const industryMeta: Record<string, string> = { logistics: 'truck', 'real-estate': 'building', 'professional-services': 'scale', 'retail-ecommerce': 'cart', 'healthcare-education': 'heart', manufacturing: 'factory' };
-const tones = ['blue', 'green', 'red', 'navy', 'gold'];
+const tones = ['blue', 'navy', 'gold'];
 
 const solutions = [
   { problem: 'The business runs on spreadsheets, Tally and WhatsApp', solution: 'Business management platforms', href: '/services/custom-software-erp', icon: 'layers' },
@@ -46,20 +46,20 @@ const why = [
   <!-- HERO -->
   <section class="hero">
     <div class="hero__sky" aria-hidden="true">
+      <span class="hero__grid-bg"></span>
       <span class="blob blob--blue" data-parallax="0.12"></span>
       <span class="blob blob--gold" data-parallax="0.2"></span>
-      <span class="blob blob--green" data-parallax="0.08"></span>
     </div>
     <div class="container hero__grid">
       <div class="hero__copy">
-        <p class="eyebrow dot-navy hero__eyebrow">Navi Mumbai · Software, automation & AI</p>
+        <p class="hero__badge"><span class="hero__badge-dot"></span>Software, automation & AI · Navi Mumbai</p>
         <h1 class="display-hero hero__title">
           <span class="hero__line">Software that <span class="hero__underline">runs</span></span>
           <span class="hero__line">the <span class="grad grad--blue">business</span>,</span>
           <span class="hero__line">not just</span>
           <span class="hero__line">the website.</span>
         </h1>
-        <p class="body-l text-secondary measure-narrow hero__lede">Visionqode designs and engineers ERPs, automation and <span class="grad grad--green" style="font-weight:600">intelligent systems</span> for companies in {site.address.locality} and across India — from the first enquiry to the last ledger entry.</p>
+        <p class="body-l text-secondary measure-narrow hero__lede">Visionqode designs and engineers ERPs, automation and intelligent systems for companies in {site.address.locality} and across India — from the first enquiry to the last ledger entry.</p>
         <div class="hero__actions">
           <a class="btn btn--primary" href="/contact" data-magnetic>Start a project <Icon name="arrowUp" size={16} /></a>
           <a class="btn btn--secondary" href="#process">See how a project runs</a>
@@ -70,8 +70,8 @@ const why = [
           <div><dt class="label-s text-muted">Reply time</dt><dd class="label-m">One business day</dd></div>
         </dl>
       </div>
-      <div class="hero__visual">
-        <KpiBoard title="Yard & finance board" />
+      <div class="hero__visual" data-tilt>
+        <div class="hero__board" data-tilt-target><KpiBoard title="Yard & finance board" /></div>
         <div class="hero__float hero__float--a" aria-hidden="true"><span class="tile tile--green"><Icon name="check" size={18} /></span><span><strong class="label-m">Invoice posted to Tally</strong><br /><span class="label-s text-muted">2 seconds ago · no manual touch</span></span></div>
         <div class="hero__float hero__float--b" aria-hidden="true"><span class="tile tile--blue"><Icon name="whatsapp" size={18} /></span><span><strong class="label-m">Lead qualified on WhatsApp</strong><br /><span class="label-s text-muted">Site visit booked for Saturday</span></span></div>
       </div>
@@ -96,7 +96,7 @@ const why = [
   <section class="section" id="services" aria-labelledby="services-title">
     <div class="container">
       <div class="section-head section-head--split">
-        <div><p class="eyebrow dot-green">Services</p><h2 id="services-title" class="display-xl reveal-clip">Six disciplines, one team</h2></div>
+        <div><p class="eyebrow dot-blue">Services</p><h2 id="services-title" class="display-xl reveal-clip">Six disciplines, one team</h2></div>
         <a class="btn btn--link reveal" href="/services">All services <Icon name="arrowUp" size={16} /></a>
       </div>
       <div class="ledger reveal" data-stagger>
@@ -116,7 +116,7 @@ const why = [
   <section class="section section--milk" id="solutions" aria-labelledby="solutions-title">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow dot-red">Solutions</p>
+        <p class="eyebrow dot-gold">Solutions</p>
         <h2 id="solutions-title" class="display-xl reveal-clip">Start from the problem</h2>
         <p class="body-l text-secondary measure-narrow reveal">You do not need to know what to call the solution. Find the sentence that sounds like your company.</p>
       </div>
@@ -134,19 +134,18 @@ const why = [
 
   <!-- WHY -->
   <section class="section" aria-labelledby="why-title">
-    <div class="container why">
-      <div class="why__head">
-        <p class="eyebrow dot-navy">Why Visionqode</p>
-        <h2 id="why-title" class="display-xl reveal-clip">How we work differently</h2>
-        <p class="body-l text-secondary measure-narrow reveal">Not claims — the way every project here is actually run.</p>
-        <a class="btn btn--secondary reveal" href="/about">About the company</a>
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div><p class="eyebrow dot-navy">Why Visionqode</p><h2 id="why-title" class="display-xl reveal-clip">How we work differently</h2></div>
+        <p class="body-m text-secondary measure-narrow reveal">Not claims — the way every project here is actually run.</p>
       </div>
-      <div class="why__grid reveal" data-stagger>
+      <div class="bento reveal" data-stagger>
         {why.map((w, i) => (
-          <article class="card why__card">
-            <span class={`tile tile--${tones[i % tones.length]}`}><Icon name={w.icon as any} /></span>
-            <h3 class="heading-s">{w.title}</h3>
-            <p class="body-s text-secondary">{w.text}</p>
+          <article class:list={['card', 'bento__card', { 'bento__card--wide': [0, 3, 5].includes(i), 'bento__card--navy': i === 0 }]} data-theme={i === 0 ? 'navy' : undefined}>
+            <span class={`tile tile--${i === 0 ? 'gold' : tones[i % tones.length]}`}><Icon name={w.icon as any} /></span>
+            <h3 class="heading-m">{w.title}</h3>
+            <p class="body-m text-secondary">{w.text}</p>
+            <span class="bento__ghost" aria-hidden="true"><Icon name={w.icon as any} size={160} /></span>
           </article>
         ))}
       </div>
@@ -178,19 +177,18 @@ const why = [
   </section>
 
   <!-- PROCESS (navy band) -->
-  <section class="section process-band" id="process" data-theme="navy" aria-labelledby="process-title">
+  <section class="section band process-band" id="process" data-theme="navy" aria-labelledby="process-title">
     <div class="container">
       <div class="section-head section-head--split">
-        <div><p class="eyebrow dot-gold" style="--dot: var(--gold-600); color: rgba(255,255,255,.7)">Process</p><h2 id="process-title" class="display-xl reveal-clip">How a project runs</h2></div>
+        <div><p class="eyebrow" style="--dot: var(--gold-600)">Process</p><h2 id="process-title" class="display-xl reveal-clip">How a project runs</h2></div>
         <p class="body-m text-secondary measure-narrow reveal">Six stages, each with an owner, a deliverable and a check before the next one starts.</p>
       </div>
-      <ol role="list" class="process reveal" data-stagger>
-        {process.map((p, i) => (
-          <li class="process__step">
-            <span class="process__num">{p.n}</span>
+      <ol role="list" class="timeline" data-process>
+        {process.map((p) => (
+          <li class="timeline__step">
+            <span class="timeline__num">{p.n}</span>
             <h3 class="heading-s">{p.title}</h3>
             <p class="body-s text-secondary">{p.text}</p>
-            {i < process.length - 1 && <span class="process__link" aria-hidden="true"></span>}
           </li>
         ))}
       </ol>
@@ -221,8 +219,8 @@ const why = [
   <!-- STACK -->
   <section class="section section--tight section--milk" aria-labelledby="stack-title">
     <div class="container stack">
-      <h2 id="stack-title" class="eyebrow dot-green">Built with</h2>
-      <ul role="list" class="stack__list">{stack.map((s, i) => <li class={`pill ${['dot-blue','dot-green','dot-red','dot-navy','dot-gold'][i % 5]}`}>{s}</li>)}</ul>
+      <h2 id="stack-title" class="eyebrow dot-navy">Built with</h2>
+      <ul role="list" class="stack__list">{stack.map((s, i) => <li class={`pill ${['dot-blue','dot-navy','dot-gold'][i % 3]}`}>{s}</li>)}</ul>
     </div>
   </section>
 
@@ -232,33 +230,36 @@ const why = [
 
 <style>
   /* hero */
-  .hero { position: relative; overflow: hidden; padding-block: clamp(36px, 5vw, 64px) clamp(36px, 4vw, 52px); background: linear-gradient(180deg, var(--blue-50) 0%, var(--white) 70%); }
+  .hero { position: relative; overflow: hidden; margin-top: calc(var(--nav-h) * -1); padding-block: calc(var(--nav-h) + clamp(28px, 4vw, 56px)) clamp(48px, 5vw, 72px); background: var(--white); }
   .hero__sky { position: absolute; inset: 0; pointer-events: none; }
-  .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; will-change: transform; }
-  .blob--blue { width: 46vw; height: 46vw; max-width: 620px; max-height: 620px; right: -12vw; top: -16vw; background: radial-gradient(closest-side, rgba(92,178,255,.8), transparent); animation: drift 14s ease-in-out infinite; }
-  .blob--gold { width: 30vw; height: 30vw; max-width: 420px; max-height: 420px; left: -10vw; bottom: -10vw; background: radial-gradient(closest-side, rgba(212,172,92,.55), transparent); animation: drift 18s ease-in-out infinite reverse; }
-  .blob--green { width: 22vw; height: 22vw; max-width: 300px; max-height: 300px; left: 40%; top: 60%; background: radial-gradient(closest-side, rgba(52,168,83,.35), transparent); animation: drift 22s ease-in-out infinite; }
+  .hero__grid-bg { position: absolute; inset: 0; background-image: radial-gradient(rgba(22, 26, 51, 0.13) 1px, transparent 1px); background-size: 22px 22px; mask-image: radial-gradient(70% 70% at 70% 30%, #000 0%, transparent 75%); -webkit-mask-image: radial-gradient(70% 70% at 70% 30%, #000 0%, transparent 75%); }
+  .blob { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
+  .blob--blue { width: 50vw; height: 50vw; max-width: 680px; max-height: 680px; right: -14vw; top: -18vw; background: radial-gradient(closest-side, rgba(92,178,255,.5), transparent); animation: drift 16s ease-in-out infinite; }
+  .blob--gold { width: 30vw; height: 30vw; max-width: 420px; max-height: 420px; left: -12vw; bottom: -14vw; background: radial-gradient(closest-side, rgba(212,172,92,.38), transparent); animation: drift 20s ease-in-out infinite reverse; }
   .hero__grid { position: relative; display: grid; gap: var(--space-8); align-items: center; }
   @media (min-width: 1000px) { .hero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-8); } }
-  .hero__eyebrow { animation: fade 800ms var(--ease-out) both; margin-bottom: var(--space-4); }
-  .hero__title { display: grid; text-wrap: initial; font-size: clamp(2.4rem, 0.9rem + 3.5vw, 3.6rem); }
-  .hero__line { display: block; animation: rise 900ms var(--ease-out) both; }
+  .hero__badge { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 10px; border-radius: var(--radius-pill); background: var(--white); border: 1px solid var(--border-default); box-shadow: var(--shadow-sm); font-size: var(--label-s); font-weight: 600; color: var(--text-secondary); margin-bottom: var(--space-5); animation: fade 800ms var(--ease-out) both; }
+  .hero__badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-600); box-shadow: 0 0 0 4px rgba(212,172,92,.25); }
+  .hero__title { display: grid; text-wrap: initial; font-size: clamp(2.5rem, 0.9rem + 3.7vw, 3.85rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
+  .hero__line { display: block; animation: rise 1000ms var(--ease-out) both; }
   .hero__line:nth-child(2) { animation-delay: 90ms } .hero__line:nth-child(3) { animation-delay: 180ms } .hero__line:nth-child(4) { animation-delay: 270ms }
   @media (min-width: 1000px) { .hero__line { white-space: nowrap; } }
   .hero__underline { position: relative; display: inline-block; }
-  .hero__underline::after { content: ''; position: absolute; left: -2%; right: -2%; bottom: 0.02em; height: 0.16em; background: var(--gold-600); border-radius: 999px 999px 999px 999px / 60% 60% 60% 60%; transform: skewX(-12deg) scaleX(0); transform-origin: left; animation: draw 700ms var(--ease-out) 700ms both; z-index: -1; }
+  .hero__underline::after { content: ''; position: absolute; left: -2%; right: -2%; bottom: 0.02em; height: 0.16em; background: var(--gold-600); border-radius: 999px; transform: skewX(-12deg) scaleX(0); transform-origin: left; animation: draw 800ms var(--ease-out) 800ms both; z-index: -1; }
   @keyframes draw { to { transform: skewX(-12deg) scaleX(1); } }
   .hero__lede { margin-top: var(--space-5); animation: fade 800ms var(--ease-out) 360ms both; }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); animation: fade 800ms var(--ease-out) 480ms both; }
-  .hero__facts { display: flex; flex-wrap: wrap; gap: var(--space-6); margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--border-default); animation: fade 800ms var(--ease-out) 600ms both; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-6); animation: fade 800ms var(--ease-out) 480ms both; }
+  .hero__facts { display: flex; flex-wrap: wrap; gap: var(--space-6); margin-top: var(--space-7); padding-top: var(--space-4); border-top: 1px solid var(--border-default); animation: fade 800ms var(--ease-out) 600ms both; }
   .hero__facts dd { margin-top: 2px; }
-  .hero__visual { position: relative; animation: fade 1000ms var(--ease-out) 300ms both; }
-  .hero__float { position: absolute; display: flex; gap: 12px; align-items: center; padding: 12px 16px 12px 12px; border-radius: 14px; background: var(--white); border: 1px solid var(--border-default); box-shadow: var(--shadow-card); animation: float 6s ease-in-out infinite; }
+  .hero__visual { position: relative; animation: fade 1100ms var(--ease-out) 300ms both; }
+  .hero__board { transition: transform 500ms var(--ease-out); transform-style: preserve-3d; will-change: transform; }
+  .hero__float { position: absolute; display: flex; gap: 12px; align-items: center; padding: 12px 16px 12px 12px; border-radius: 16px; background: color-mix(in srgb, var(--white) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--border-default); box-shadow: var(--shadow-lg); animation: float 7s ease-in-out infinite; }
   .hero__float--a { left: -28px; bottom: -40px; animation-delay: .5s; }
-  .hero__float--b { right: -20px; top: -46px; animation-delay: 2s; }
+  .hero__float--b { right: -20px; top: -50px; animation-delay: 2s; }
+  @media (min-width: 1000px) { .hero__visual { margin-top: 40px; } }
   @media (max-width: 1100px) { .hero__float { display: none; } }
-  @keyframes rise { from { opacity: 0; transform: translateY(0.6em); } to { opacity: 1; transform: none; } }
-  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(0.5em); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
   /* intro */
   .intro { display: grid; gap: var(--space-4); align-items: start; }
@@ -277,33 +278,41 @@ const why = [
   .solutions__answer svg { transition: transform var(--dur-fast) var(--ease-out); }
   .solutions__answer:hover svg { transform: translateX(3px); }
 
-  /* why */
-  .why { display: grid; gap: var(--space-6); }
-  @media (min-width: 900px) { .why { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-9); } .why__head { position: sticky; top: 100px; } }
-  .why__head { display: grid; gap: var(--space-4); align-content: start; justify-items: start; }
-  .why__grid { display: grid; gap: var(--space-4); }
-  @media (min-width: 640px) { .why__grid { grid-template-columns: 1fr 1fr; } }
-  .why__card { background: var(--bg-milk); }
+  /* why — bento */
+  .bento { display: grid; gap: var(--space-4); }
+  @media (min-width: 760px) { .bento { grid-template-columns: repeat(3, 1fr); } .bento__card--wide { grid-column: span 2; } }
+  .bento__card { overflow: hidden; padding: var(--space-6); min-height: 210px; gap: var(--space-3); }
+  .bento__card .body-m { max-width: 46ch; }
+  .bento__card--navy { background: var(--grad-navy); border-color: transparent; color: var(--text-primary); }
+  .bento__ghost { position: absolute; right: -28px; bottom: -36px; z-index: -1; color: var(--text-primary); opacity: .045; transform: rotate(-12deg); transition: transform var(--dur-slow) var(--ease-out), opacity var(--dur-slow); }
+  .bento__ghost :global(svg) { stroke-width: 1; }
+  .bento__card:hover .bento__ghost { transform: rotate(-4deg) scale(1.06); opacity: .08; }
 
   /* industries */
   .industries { display: grid; gap: var(--space-4); }
   @media (min-width: 900px) { .industries { grid-template-columns: 1fr 1fr; } }
-  .industry { gap: var(--space-5); padding: var(--space-4) var(--space-4) var(--space-6); }
+  .industry { gap: var(--space-5); padding: var(--space-3) var(--space-3) var(--space-6); }
   .industry__copy { padding-inline: var(--space-3); }
   .industry__copy { display: grid; gap: var(--space-3); justify-items: start; }
   .industry__points { display: grid; gap: 6px; }
   .industry__points li { display: flex; gap: 8px; align-items: flex-start; }
-  .industry__points svg { color: var(--green-600); flex: none; margin-top: 4px; stroke-width: 2.75; }
+  .industry__points svg { color: var(--blue-600); flex: none; margin-top: 4px; stroke-width: 2.75; }
 
-  /* process */
-  .process-band { background: var(--grad-navy); }
-  .process { display: grid; gap: var(--space-6); }
-  @media (min-width: 640px) { .process { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1100px) { .process { grid-template-columns: repeat(6, 1fr); gap: var(--space-5); } }
-  .process__step { position: relative; display: grid; gap: var(--space-3); padding: var(--space-5); border-radius: var(--radius-md); background: rgba(255,255,255,.06); border: 1px solid var(--border-default); align-content: start; transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
-  .process__step:hover { background: rgba(255,255,255,.1); transform: translateY(-3px); }
-  .process__num { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--gold-600); color: var(--ink-900); font-family: var(--font-display); font-weight: 700; font-size: .9rem; }
-  @media (min-width: 1100px) { .process__link { position: absolute; right: -14px; top: 40px; width: 20px; height: 1px; background: var(--border-default); } }
+  /* process — scroll-linked timeline */
+  .process-band { padding-block: clamp(56px, 7vw, 96px); }
+  .timeline { --p: 0; position: relative; display: grid; gap: var(--space-6); padding-left: 56px; }
+  .timeline::before, .timeline::after { content: ''; position: absolute; left: 19px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: rgba(255,255,255,.14); }
+  .timeline::after { background: linear-gradient(180deg, var(--gold-600), #f0d9a6); transform: scaleY(var(--p)); transform-origin: top; }
+  .timeline__step { position: relative; z-index: 1; display: grid; gap: var(--space-2); align-content: start; opacity: .5; transition: opacity var(--dur-slow) var(--ease-out); }
+  .timeline__step.is-active { opacity: 1; }
+  .timeline__num { position: absolute; left: -56px; top: -4px; z-index: 1; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--navy-600); border: 2px solid rgba(255,255,255,.22); color: rgba(255,255,255,.7); font-family: var(--font-display); font-weight: 700; font-size: .85rem; transition: background var(--dur-base) var(--ease-out), border-color var(--dur-base), color var(--dur-base), transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base); }
+  .is-active .timeline__num { background: var(--gold-600); border-color: var(--gold-600); color: var(--ink-900); transform: scale(1.08); box-shadow: 0 0 0 6px rgba(212,172,92,.18); }
+  @media (min-width: 1000px) {
+    .timeline { grid-template-columns: repeat(6, 1fr); gap: var(--space-5); padding-left: 0; padding-top: 64px; }
+    .timeline::before, .timeline::after { left: 20px; right: 20px; top: 19px; bottom: auto; width: auto; height: 2px; }
+    .timeline::after { background: linear-gradient(90deg, var(--gold-600), #f0d9a6); transform: scaleX(var(--p)); transform-origin: left; }
+    .timeline__num { left: 0; top: -64px; }
+  }
 
   /* work */
   .work { display: grid; gap: var(--space-4); }

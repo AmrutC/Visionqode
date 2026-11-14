@@ -7,7 +7,7 @@ import { services, getService } from '../../data/services';
 import { industries } from '../../data/industries';
 import { site } from '../../data/site';
 import Icon from '../../components/Icon.astro';
-const tones = ['blue', 'green', 'red', 'navy', 'gold'];
+const tones = ['blue', 'navy', 'gold'];
 const dIcons = ['doc', 'bolt', 'plug', 'chart'];
 
 export function getStaticPaths() {
@@ -71,11 +71,11 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
     <div class="container two-col">
       <div>
         <h2 id="benefits-title" class="display-l reveal-clip">What changes for the business</h2>
-        <ul role="list" class="benefits reveal" data-stagger>{service.benefits.map((b) => <li class="body-l"><span class="tile tile--green benefits__tick"><Icon name="check" size={16} /></span>{b}</li>)}</ul>
+        <ul role="list" class="benefits reveal" data-stagger>{service.benefits.map((b) => <li class="body-l"><span class="tile tile--blue benefits__tick"><Icon name="check" size={16} /></span>{b}</li>)}</ul>
       </div>
       <div class="tech reveal">
         <h3 class="heading-s text-muted">Technologies we typically use</h3>
-        <ul role="list" class="tech__list">{service.tech.map((t, i) => <li class={`pill ${['dot-blue','dot-green','dot-red','dot-navy','dot-gold'][i % 5]}`}>{t}</li>)}</ul>
+        <ul role="list" class="tech__list">{service.tech.map((t, i) => <li class={`pill ${['dot-blue','dot-navy','dot-gold'][i % 3]}`}>{t}</li>)}</ul>
         {relevantIndustries.length > 0 && (
           <>
             <h3 class="heading-s text-muted">Where we have applied it</h3>

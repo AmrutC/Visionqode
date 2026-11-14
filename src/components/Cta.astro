@@ -1,22 +1,32 @@
 ---
 import { site } from '../data/site';
+import Icon from './Icon.astro';
 interface Props { title?: string; text?: string }
 const { title = 'Have a process that should run itself?', text = `Tell us what slows the business down. We reply ${site.replyTime}, and the first conversation is free.` } = Astro.props;
 ---
-<section class="section cta" data-theme="navy">
-  <div class="container cta__inner">
-    <h2 class="display-xl reveal-clip">{title}</h2>
-    <p class="body-l text-secondary measure-narrow reveal">{text}</p>
-    <div class="cta__actions reveal">
-      <a class="btn btn--primary" href="/contact" data-magnetic>Start a project</a>
-      <a class="btn btn--secondary" href={site.whatsapp} target="_blank" rel="noopener">WhatsApp {site.phone}</a>
+<div class="cta-wrap">
+  <section class="section band cta" data-theme="navy">
+    <span class="cta__ring cta__ring--1" aria-hidden="true"></span><span class="cta__ring cta__ring--2" aria-hidden="true"></span><span class="cta__glow" aria-hidden="true"></span>
+    <div class="container cta__inner">
+      <p class="eyebrow" style="--dot: var(--gold-600)">Start a project</p>
+      <h2 class="display-xl reveal-clip cta__title">{title}</h2>
+      <p class="body-l text-secondary measure-narrow reveal">{text}</p>
+      <div class="cta__actions reveal">
+        <a class="btn btn--primary" href="/contact" data-magnetic>Start a project <Icon name="arrowUp" size={16} /></a>
+        <a class="btn btn--secondary" href={site.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" size={16} /> WhatsApp {site.phone}</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 <style>
-  .cta { background: var(--grad-navy); position: relative; overflow: hidden; }
-  .cta::after { content: ''; position: absolute; left: -10%; top: -40%; width: 40vw; height: 40vw; max-width: 520px; max-height: 520px; border-radius: 50%; background: radial-gradient(closest-side, rgba(212,172,92,.25), transparent); pointer-events: none; }
-  .cta::before { content: ''; position: absolute; inset: auto -10% -60% auto; width: 60vw; height: 60vw; max-width: 720px; max-height: 720px; border-radius: 50%; border: 1px dashed var(--border-default); pointer-events: none; }
-  .cta__inner { display: grid; gap: var(--space-5); justify-items: start; position: relative; }
-  .cta__actions { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-3); }
+  .cta-wrap { padding-block: clamp(8px, 1.4vw, 20px); background: var(--white); }
+  .cta { position: relative; padding-block: clamp(64px, 8vw, 112px); }
+  .cta__glow { position: absolute; left: -8%; top: -50%; width: 46vw; height: 46vw; max-width: 600px; max-height: 600px; border-radius: 50%; background: radial-gradient(closest-side, rgba(212,172,92,.28), transparent); pointer-events: none; animation: drift 18s ease-in-out infinite; }
+  .cta__ring { position: absolute; right: -6%; top: 50%; border-radius: 50%; border: 1px solid rgba(255,255,255,.1); pointer-events: none; translate: 0 -50%; }
+  .cta__ring--1 { width: 520px; height: 520px; }
+  .cta__ring--2 { width: 820px; height: 820px; right: calc(-6% - 150px); border-style: dashed; animation: spin 80s linear infinite; }
+  @keyframes spin { to { rotate: 360deg; } }
+  .cta__inner { display: grid; gap: var(--space-4); justify-items: start; position: relative; }
+  .cta__title { max-width: 14em; font-weight: 800; }
+  .cta__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
 </style>

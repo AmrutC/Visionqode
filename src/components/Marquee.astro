@@ -3,9 +3,9 @@ interface Props { items: string[]; label: string }
 const { items, label } = Astro.props;
 ---
 <div class="marquee-wrap">
-  <p class="label-s text-muted marquee-label">{label}</p>
+  <p class="label-s text-muted marquee-label" style="text-align:center">{label}</p>
   <div class="marquee" data-marquee>
-    <ul role="list" class="marquee__track">{items.map((i, n) => <li class={`pill ${['dot-blue','dot-green','dot-red','dot-navy','dot-gold'][n % 5]}`}>{i}</li>)}</ul>
+    <ul role="list" class="marquee__track">{items.map((i, n) => <li class={`pill ${['dot-blue','dot-navy','dot-gold'][n % 3]}`}>{i}</li>)}</ul>
   </div>
 </div>
 <style>

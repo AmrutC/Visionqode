@@ -8,18 +8,21 @@ const { title, lede, crumbs = [], eyebrow, theme = 'light' } = Astro.props;
     {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
     <div class="page-head__text">
       {eyebrow && <p class="eyebrow dot-blue">{eyebrow}</p>}
-      <h1 class="display-xl page-head__title">{title}</h1>
+      <h1 class="display-xl page-head__title" style="font-weight:800">{title}</h1>
       {lede && <p class="body-l text-secondary measure">{lede}</p>}
     </div>
     <slot />
   </div>
 </section>
 <style>
-  .page-head { background: linear-gradient(180deg, var(--blue-50) 0%, var(--white) 100%); color: var(--text-primary); padding-block: clamp(28px, 4vw, 48px) clamp(36px, 5vw, 60px); }
+  .page-head { position: relative; overflow: hidden; margin-top: calc(var(--nav-h) * -1); background: var(--white); color: var(--text-primary); padding-block: calc(var(--nav-h) + clamp(28px, 4vw, 48px)) clamp(36px, 5vw, 60px); }
+  .page-head::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 80% at 85% 0%, rgba(92,178,255,.28), transparent 70%), radial-gradient(40% 60% at 0% 100%, rgba(212,172,92,.16), transparent 70%); }
+  .page-head::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(22,26,51,.12) 1px, transparent 1px); background-size: 22px 22px; mask-image: radial-gradient(60% 90% at 80% 10%, #000, transparent 75%); -webkit-mask-image: radial-gradient(60% 90% at 80% 10%, #000, transparent 75%); }
+  .page-head__inner { position: relative; z-index: 1; }
   .page-head__inner { display: grid; gap: var(--space-6); }
   .page-head__text { display: grid; gap: var(--space-5); }
   .page-head__title { max-width: 18em; animation: rise 800ms var(--ease-out) both; }
   .page-head__text p:last-child { animation: fade 800ms var(--ease-out) 150ms both; }
-  @keyframes rise { from { opacity: 0; transform: translateY(0.4em); } to { opacity: 1; transform: none; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(0.4em); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 </style>

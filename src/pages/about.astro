@@ -60,8 +60,8 @@ const aboutLd = { '@context': 'https://schema.org', '@type': 'AboutPage', name: 
 
   <section class="section section--tight">
     <div class="container tools">
-      <div><h2 class="heading-s text-muted">Platforms we integrate</h2><ul role="list" class="tools__list">{platforms.map((p, i) => <li class={`pill ${['dot-blue','dot-green','dot-red','dot-navy','dot-gold'][i % 5]}`}>{p}</li>)}</ul></div>
-      <div><h2 class="heading-s text-muted">What we build with</h2><ul role="list" class="tools__list">{stack.map((p, i) => <li class={`pill ${['dot-blue','dot-green','dot-red','dot-navy','dot-gold'][i % 5]}`}>{p}</li>)}</ul></div>
+      <div><h2 class="heading-s text-muted">Platforms we integrate</h2><ul role="list" class="tools__list">{platforms.map((p, i) => <li class={`pill ${['dot-blue','dot-navy','dot-gold'][i % 3]}`}>{p}</li>)}</ul></div>
+      <div><h2 class="heading-s text-muted">What we build with</h2><ul role="list" class="tools__list">{stack.map((p, i) => <li class={`pill ${['dot-blue','dot-navy','dot-gold'][i % 3]}`}>{p}</li>)}</ul></div>
     </div>
   </section>
   <Cta title="Working with us starts with a conversation about the business." text="Thirty minutes, no slides. We ask about the operation; you leave with a clearer picture of what to build first." />

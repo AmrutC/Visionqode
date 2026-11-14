@@ -16,6 +16,6 @@ const paths = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')
   .logo__mark { flex: none; }
   .logo__word { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.03em; line-height: 1; }
   .logo__q { color: var(--gold-800); }
-  [data-theme='navy'] .logo__q, [data-theme='ink'] .logo__q, [data-theme='blue'] .logo__q, [data-theme='red'] .logo__q { color: var(--gold-600); }
-  [data-theme='navy'] .logo__mark, [data-theme='ink'] .logo__mark, [data-theme='blue'] .logo__mark, [data-theme='red'] .logo__mark { --logo-navy: #ffffff; }
+  :global([data-theme='navy']) .logo__q, :global([data-theme='ink']) .logo__q { color: var(--gold-600); }
+  :global([data-theme='navy']) .logo__mark, :global([data-theme='ink']) .logo__mark { --logo-navy: #ffffff; }
 </style>

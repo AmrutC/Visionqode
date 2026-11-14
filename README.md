@@ -6,6 +6,13 @@ Design source of truth: Figma file **“Visionqode — Website Redesign 2026”*
 
 **Brand:** the existing Visionqode mark (navy V + gold swoosh) was vectorised from the live site into `public/logo-mark.svg` (`#242C54` navy, `#D4AC5C` gold). Base is white + milky white; accents are blue `#0575E6`, green `#34A853`, red `#E53935`, navy and gold — used as gradient words, eyebrow dots, icon tiles and full-bleed bands (`data-theme="navy" | "blue" | "red"`). Type: Plus Jakarta Sans (self-hosted).
 
+## Design v3 (polish pass)
+
+- **Palette:** navy + gold (from the logo) as the brand pair, one blue accent; green/red only for status inside product previews. White base, milk sections.
+- **Foundations:** navy-tinted hairlines, 3-step shadow scale (`--shadow-sm/md/lg`), radii 10/16/24/32. Mirrored in Figma (variables + `Shadow/*` effect styles); the v3 homepage frame is `Home / Desktop 1440 — v3`.
+- **Components:** floating glass nav with Services menu, navy pill button with gold arrow chip, spotlight cards, bento grid, scroll-linked process timeline (`[data-process]`), inset rounded navy bands (`.band`), footer wordmark.
+- **Motion:** word-by-word heading reveals, native cross-page view transitions, animated `<details>`, cursor tilt on the dashboard, count-ups, parallax. All transform/opacity; all disabled under `prefers-reduced-motion`.
+
 ## Commands
 
 ```bash
@@ -67,6 +74,6 @@ Remove `noindex` by deleting the `noindex` prop on the page's `<Base>` and the s
 
 ## Lighthouse (mobile, local build)
 
-Home 100 / 96 / 100 / 100 · Service page 100 / 96 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.4 s on throttled mobile, CLS 0, TBT 80 ms.
+Home 98 / 100 / 100 / 100 · Service page 99 / 100 / 100 / 100 · Contact 100 / 100 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.7 s on throttled mobile, CLS 0.
 
 The KPI board on the homepage shows **demo data** (labelled on the board). Replace with real, approved figures or keep as a product preview.

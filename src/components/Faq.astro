@@ -22,14 +22,17 @@ const { items, title = 'Questions buyers ask us', intro } = Astro.props;
   .faq { display: grid; gap: var(--space-6); }
   @media (min-width: 900px) { .faq { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: var(--space-9); } }
   .faq__head { display: grid; gap: var(--space-4); align-content: start; }
-  .faq__item { border-top: 1px solid var(--border-default); }
-  .faq__item:last-child { border-bottom: 1px solid var(--border-default); }
+  .faq__list { display: grid; gap: 10px; }
+  .faq__item { border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--border-default); padding-inline: var(--space-5); transition: box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base); }
+  .faq__item[open] { box-shadow: var(--shadow-md); border-color: rgba(22,26,51,.16); }
   summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--space-5); padding-block: var(--space-4); }
   summary::-webkit-details-marker { display: none; }
-  .faq__icon { position: relative; width: 20px; height: 20px; flex: none; }
-  .faq__icon::before, .faq__icon::after { content: ''; position: absolute; inset: 50% auto auto 50%; background: var(--text-accent); transition: transform var(--dur-base) var(--ease-out); }
-  .faq__icon::before { width: 16px; height: 1.5px; transform: translate(-50%, -50%); }
-  .faq__icon::after { width: 1.5px; height: 16px; transform: translate(-50%, -50%); }
+  .faq__icon { position: relative; width: 34px; height: 34px; flex: none; border-radius: 50%; border: 1px solid var(--border-default); transition: background var(--dur-base), border-color var(--dur-base); }
+  details[open] .faq__icon { background: var(--ink-800); border-color: var(--ink-800); }
+  details[open] .faq__icon::before, details[open] .faq__icon::after { background: var(--gold-600); }
+  .faq__icon::before, .faq__icon::after { content: ''; position: absolute; inset: 50% auto auto 50%; background: var(--ink-800); transition: transform var(--dur-base) var(--ease-out); }
+  .faq__icon::before { width: 12px; height: 1.5px; transform: translate(-50%, -50%); }
+  .faq__icon::after { width: 1.5px; height: 12px; transform: translate(-50%, -50%); }
   details[open] .faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
   .faq__item p { padding-bottom: var(--space-4); max-width: 62ch; }
 </style>
