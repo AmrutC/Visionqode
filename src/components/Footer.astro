@@ -40,15 +40,15 @@ const year = new Date().getFullYear();
     </div>
     <div class="footer__legal label-s text-muted">
       <span>© {year} {site.legalName}</span>
-      <span class="footer__legal-links"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sitemap-index.xml">Sitemap</a></span>
+      <span class="footer__legal-links"><a href="/privacy">Privacy</a><a href="/sitemap-index.xml">Sitemap</a></span>
     </div>
   </div>
   <p class="footer__mark" aria-hidden="true">Visionqode</p>
 </footer>
 
 <style>
-  .footer { position: relative; overflow: hidden; background: var(--grad-navy); color: var(--text-primary); padding-block: clamp(48px, 6vw, 72px) 0; }
-  .footer__mark { font-family: var(--font-display); font-weight: 800; font-size: clamp(4rem, 17.5vw, 17rem); line-height: .78; letter-spacing: -0.06em; text-align: center; white-space: nowrap; margin-top: var(--space-6); color: transparent; background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,0) 85%); -webkit-background-clip: text; background-clip: text; user-select: none; pointer-events: none; margin-bottom: -0.12em; }
+  .footer { position: relative; overflow: hidden; background: var(--navy-900); color: var(--text-primary); padding-block: clamp(40px, 5vw, 56px) 0; border-top: 1px solid rgba(255,255,255,.08); }
+  .footer__mark { font-family: var(--font-display); font-weight: 800; font-size: clamp(4rem, 17.5vw, 17rem); line-height: .78; letter-spacing: -0.06em; text-align: center; white-space: nowrap; margin-top: var(--space-6); color: transparent; background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,0) 85%); -webkit-background-clip: text; background-clip: text; user-select: none; pointer-events: none; margin-bottom: -0.12em; }
   .footer__grid { display: grid; gap: var(--space-7); grid-template-columns: 1fr; }
   @media (min-width: 720px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1024px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-8); } }
@@ -61,6 +61,7 @@ const year = new Date().getFullYear();
   .footer__col a { color: var(--text-secondary); transition: color var(--dur-fast), padding-left var(--dur-base) var(--ease-out); }
   .footer__col a:hover { color: var(--gold-600); padding-left: 4px; }
   .footer__legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); margin-top: clamp(28px, 4vw, 44px); padding-top: var(--space-4); border-top: 1px solid var(--border-default); }
-  .footer__legal-links { display: flex; gap: var(--space-4); }
+  .footer__legal-links { display: flex; gap: var(--space-2); }
+  .footer__legal-links a { padding: 10px 8px; margin-block: -10px; }
   .footer__legal a:hover { color: var(--text-primary); }
 </style>

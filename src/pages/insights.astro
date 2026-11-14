@@ -18,7 +18,7 @@ const planned = [
     <div class="container">
       <h2 class="heading-s text-muted">Coming first</h2>
       <ol role="list" class="planned reveal" data-stagger>
-        {planned.map((p) => <li class="planned__item needs-approval"><span class="label-s text-muted">{p.topic}</span><h3 class="heading-m">{p.title}</h3><span class="label-s text-muted">In progress</span></li>)}
+        {planned.map((p) => <li class="planned__item"><span class="label-s text-muted">{p.topic}</span><h3 class="heading-m">{p.title}</h3><span class="label-s text-muted">In progress</span></li>)}
       </ol>
       <p class="body-s text-muted measure" style="margin-top: var(--space-6)">Want to be told when these are published? Email <a href={`mailto:${site.email}?subject=Insights`} class="text-accent">{site.email}</a> with the subject “Insights”. No newsletter list is kept until you ask to be on it.</p>
     </div>

@@ -23,7 +23,7 @@ const cases = industries.slice(0, 4).map((i) => ({
 }));
 ---
 <Base title="Work & Case Studies — Visionqode" description="Selected platforms engineered by Visionqode across logistics, real estate, compliance and e-commerce — the business challenge, the system built, and the outcome." breadcrumbs={crumbs} noindex>
-  <PageHeader title="Work that moved real numbers" lede="Every case study here follows the same shape: the challenge the business had, the system we built, the technology, and what changed. We publish only what the client has agreed to." crumbs={crumbs} eyebrow="Work" />
+  <PageHeader title="Case studies — published once clients approve them" lede="We publish a case study only when the client has agreed to the name, the screenshots and the numbers. Until then, the industries page shows the kinds of systems we build, and we are glad to walk you through relevant work on a call." crumbs={crumbs} eyebrow="Work" />
   <section class="section section--milk">
     <div class="container cases">
       {cases.map((c, i) => (
@@ -44,9 +44,7 @@ const cases = industries.slice(0, 4).map((i) => ({
       ))}
     </div>
   </section>
-  <section class="section section--tight">
-    <div class="container"><p class="body-s text-muted measure">This page is marked <code>noindex</code> until the client names, screenshots and outcomes are approved — publishing unverified results would hurt more than it helps. Remove the flag in <code>src/pages/work.astro</code> once the content is final.</p></div>
-  </section>
+  <section class="section"><div class="container"><a class="btn btn--secondary" href="/industries">See the systems by industry</a></div></section>
   <Cta title="Want to be the next case study?" />
 </Base>
 <style>

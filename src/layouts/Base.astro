@@ -18,7 +18,9 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, canonical, ogImage = '/og-default.png', type = 'website', jsonLd = [], breadcrumbs = [], noindex = false } = Astro.props;
-const url = new URL(canonical ?? Astro.url.pathname, site.url).href.replace(/\/$/, '') || site.url;
+const cleanPath = (canonical ?? Astro.url.pathname).replace(/\.html$/, '').replace(/\/index$/, '/');
+const url = cleanPath === '/' || cleanPath === '' ? `${site.url}/` : new URL(cleanPath, site.url).href.replace(/\/$/, '');
+const socials = site.social.filter((s) => s.href).map((s) => s.href);
 const ogAbs = new URL(ogImage, site.url).href;
 
 const organization = {
@@ -37,7 +39,7 @@ const organization = {
   founder: { '@type': 'Person', name: site.founder.name, jobTitle: site.founder.role },
   areaServed: 'IN',
   contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', telephone: site.phone.replace(/\s/g, ''), email: site.email, availableLanguage: ['en', 'hi', 'mr'] }],
-  sameAs: site.social.filter((s) => s.href).map((s) => s.href),
+  ...(socials.length ? { sameAs: socials } : {}),
 };
 const website = {
   '@context': 'https://schema.org',
@@ -58,7 +60,7 @@ const breadcrumbLd = breadcrumbs.length
 const allLd = [organization, website, ...(breadcrumbLd ? [breadcrumbLd] : []), ...jsonLd];
 ---
 <!doctype html>
-<html lang="en-IN" class="no-js">
+<html lang="en-IN" class="no-js" data-env={import.meta.env.DEV ? 'dev' : 'prod'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -99,6 +101,6 @@ const allLd = [organization, website, ...(breadcrumbLd ? [breadcrumbLd] : []), .
 </html>
 
 <style>
-  .skip { position: absolute; left: 16px; top: -48px; z-index: 100; padding: 10px 14px; background: var(--ink-900); color: var(--fog-50); border-radius: 6px; }
+  .skip { position: absolute; left: 16px; top: -48px; z-index: 100; padding: 10px 14px; background: var(--ink-900); color: var(--white); border-radius: 6px; }
   .skip:focus { top: 12px; }
 </style>

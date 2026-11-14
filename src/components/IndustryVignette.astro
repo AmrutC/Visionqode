@@ -103,7 +103,7 @@ const { slug, tone = 'blue' } = Astro.props;
   .vig__kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .vig__kpis div { padding: 8px 10px; border-radius: 10px; background: var(--milk-100); }
   .vig__kpis small { display: block; font-size: 10px; color: var(--text-muted); }
-  .vig__kpis strong { font-family: var(--font-display); font-size: 15px; letter-spacing: -0.02em; }
+  .vig__kpis strong { font-family: var(--font-display); font-size: 15px; letter-spacing: -0.02em; white-space: nowrap; }
   .vig__kpis strong span { font-size: 11px; color: var(--text-muted); font-weight: 600; }
   .vig__progress { height: 8px; border-radius: 4px; background: var(--milk-200); overflow: hidden; }
   .vig__progress span { display: block; height: 100%; width: var(--w); border-radius: 4px; background: linear-gradient(90deg, var(--blue-600), var(--gold-600)); }

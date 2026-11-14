@@ -14,11 +14,15 @@ const meta: Record<string, { icon: string; tone: string }> = {
   <div class="nav__shell">
     <div class="nav__inner">
       <a href="/" class="nav__brand" aria-label="Visionqode — home"><Logo size={28} /></a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+        <span class="sr-only">Menu</span>
+        <span class="nav__bar"></span><span class="nav__bar"></span>
+      </button>
       <nav aria-label="Primary" class="nav__links" id="primary-nav">
         <ul role="list">
           {nav.map((item) => (
             <li class:list={{ 'has-menu': item.href === '/services' }}>
-              <a class="nav__link label-m" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+              <a class="nav__link label-m" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} aria-haspopup={item.href === '/services' ? 'true' : undefined} aria-expanded={item.href === '/services' ? 'false' : undefined}>
                 {item.label}{item.href === '/services' && <svg class="nav__caret" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 3.5 3 3 3-3" /></svg>}
               </a>
               {item.href === '/services' && (
@@ -37,14 +41,10 @@ const meta: Record<string, { icon: string; tone: string }> = {
           ))}
           <li class="nav__mobile-only"><a class="nav__link label-m" href="/contact">Contact</a></li>
         </ul>
-        <a href="/contact" class="btn btn--primary nav__mobile-only nav__mcta">Start a project <Icon name="arrowUp" size={16} /></a>
+        <a href="/contact" class="btn btn--primary nav__mobile-only nav__mcta">Book a free call <Icon name="arrowUp" size={16} /></a>
       </nav>
       <div class="nav__actions">
-        <a href="/contact" class="btn btn--primary nav__cta nav__desktop-only">Start a project <Icon name="arrowUp" size={16} /></a>
-        <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
-          <span class="sr-only">Menu</span>
-          <span class="nav__bar"></span><span class="nav__bar"></span>
-        </button>
+        <a href="/contact" class="btn btn--primary nav__cta nav__desktop-only">Book a free call <Icon name="arrowUp" size={16} /></a>
       </div>
     </div>
     <span class="nav__progress" data-progress aria-hidden="true"></span>
@@ -57,7 +57,7 @@ const meta: Record<string, { icon: string; tone: string }> = {
   .nav.is-scrolled .nav__shell { box-shadow: var(--shadow-lg); background: color-mix(in srgb, var(--white) 90%, transparent); max-width: 1080px; }
   .nav__progress { position: absolute; left: 28px; right: 28px; bottom: -1px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--blue-600), var(--gold-600)); transform: scaleX(0); transform-origin: left; pointer-events: none; }
   .nav__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); min-height: 64px; padding: 8px 8px 8px 22px; }
-  .nav__brand { display: inline-flex; align-items: center; }
+  .nav__brand { display: inline-flex; align-items: center; order: 0; }
   .nav__links > ul { display: flex; gap: 2px; }
   .nav__link { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: var(--radius-pill); color: var(--text-secondary); transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
   .nav__link:hover, .has-menu:hover > .nav__link { background: rgba(22, 26, 51, 0.06); color: var(--text-primary); }
@@ -65,8 +65,9 @@ const meta: Record<string, { icon: string; tone: string }> = {
   .nav__caret { transition: transform var(--dur-base) var(--ease-out); }
   .has-menu:hover .nav__caret, .has-menu:focus-within .nav__caret { transform: rotate(180deg); }
   .nav__actions { display: flex; align-items: center; gap: var(--space-3); }
+  .nav__links { order: 1; } .nav__actions { order: 2; }
   .nav__cta { min-height: 46px; }
-  .nav__toggle { display: none; width: 46px; height: 46px; border: 0; border-radius: 50%; background: var(--ink-800); cursor: pointer; position: relative; }
+  .nav__toggle { display: none; order: 3; width: 46px; height: 46px; border: 0; border-radius: 50%; background: var(--ink-800); cursor: pointer; position: relative; }
   .nav__bar { position: absolute; left: 14px; width: 18px; height: 2px; border-radius: 2px; background: var(--white); transition: transform var(--dur-base) var(--ease-out), top var(--dur-base) var(--ease-out); }
   .nav__bar:nth-child(2) { top: 19px; } .nav__bar:nth-child(3) { top: 26px; }
   [aria-expanded='true'] .nav__bar:nth-child(2) { top: 22px; transform: rotate(45deg); }
@@ -74,9 +75,13 @@ const meta: Record<string, { icon: string; tone: string }> = {
   .nav__mobile-only { display: none; }
 
   /* services menu */
-  .has-menu { position: relative; }
-  .menu { position: absolute; left: 50%; top: 100%; padding-top: 18px; width: 700px; transform: translate(-50%, 8px); opacity: 0; visibility: hidden; transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), visibility 0s linear var(--dur-base); }
-  .has-menu:hover .menu, .has-menu:focus-within .menu { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+  .menu { position: absolute; left: 50%; top: 100%; padding-top: 12px; width: min(700px, calc(100vw - 48px)); transform: translate(-50%, 8px); opacity: 0; visibility: hidden; transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), visibility 0s linear var(--dur-base); }
+  .has-menu:not(.is-dismissed):hover .menu, .has-menu:not(.is-dismissed):focus-within .menu { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+  .has-menu > .nav__link { position: relative; }
+  .has-menu > .nav__link::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 28px; }
+  .menu__grid > li { opacity: 0; translate: 0 8px; transition: opacity var(--dur-base) var(--ease-out), translate var(--dur-base) var(--ease-out); }
+  .has-menu:not(.is-dismissed):hover .menu__grid > li, .has-menu:not(.is-dismissed):focus-within .menu__grid > li { opacity: 1; translate: 0 0; }
+  .menu__grid > li:nth-child(1) { transition-delay: 40ms } .menu__grid > li:nth-child(2) { transition-delay: 70ms } .menu__grid > li:nth-child(3) { transition-delay: 100ms } .menu__grid > li:nth-child(4) { transition-delay: 130ms } .menu__grid > li:nth-child(5) { transition-delay: 160ms } .menu__grid > li:nth-child(6) { transition-delay: 190ms }
   .menu__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 10px; border-radius: var(--radius-lg); background: var(--white); border: 1px solid var(--border-default); box-shadow: var(--shadow-lg); }
   .menu__item { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; padding: 10px 12px; border-radius: var(--radius-md); transition: background var(--dur-fast) var(--ease-out); }
   .menu__item:hover { background: var(--milk-100); }
@@ -90,11 +95,12 @@ const meta: Record<string, { icon: string; tone: string }> = {
     .nav__desktop-only { display: none; }
     .nav__mobile-only { display: block; }
     .nav__inner { min-height: 58px; padding: 6px 6px 6px 18px; }
-    .nav__links { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-slow) var(--ease-out); position: absolute; left: 0; right: 0; top: calc(100% + 8px); border-radius: 28px; background: var(--white); border: 1px solid var(--border-default); box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; overflow: hidden; }
-    .nav__links.is-open { opacity: 1; pointer-events: auto; }
+    .nav__links { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-slow) var(--ease-out); position: absolute; left: 0; right: 0; top: calc(100% + 8px); border-radius: 28px; background: var(--white); border: 1px solid var(--border-default); box-shadow: var(--shadow-lg); opacity: 0; visibility: hidden; pointer-events: none; overflow: hidden auto; max-height: calc(100dvh - 96px); }
+    .nav__links.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
     .nav__links > ul { flex-direction: column; gap: 0; padding: 14px 14px 4px; }
     .nav__link { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); padding: 12px 14px; width: 100%; }
     .nav__caret, .menu { display: none; }
+    .nav__actions { order: 2; margin-left: auto; }
     .nav__mcta { display: inline-flex; margin: 10px 14px 24px; justify-self: start; }
     .nav__links { transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); transform: translateY(-8px) scale(0.98); transform-origin: top; grid-template-rows: none; display: block; }
     .nav__links.is-open { transform: none; }

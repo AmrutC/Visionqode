@@ -19,8 +19,8 @@ const mapSrc = 'https://www.google.com/maps?q=Navi+Mumbai,+Maharashtra,+India&ou
           <div><dt class="label-s text-muted">Office</dt><dd class="heading-s">{site.address.locality}, {site.address.region}, {site.address.countryName}<br /><span class="body-s text-secondary needs-approval">Street address to be added</span></dd></div>
           <div class="needs-approval"><dt class="label-s text-muted">Hours</dt><dd class="heading-s">Business hours to be confirmed<br /><span class="body-s text-secondary">On-site across Mumbai region; remote everywhere</span></dd></div>
         </dl>
-        <div class="map">
-          <iframe title="Map of Navi Mumbai, Maharashtra" src={mapSrc} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <div class="map" data-map={mapSrc}>
+          <button type="button" class="map__load" data-map-load><span class="label-m">Show map of Navi Mumbai</span><span class="label-s text-muted">Loads Google Maps</span></button>
         </div>
       </aside>
       <div class="contact__form card">
@@ -30,13 +30,22 @@ const mapSrc = 'https://www.google.com/maps?q=Navi+Mumbai,+Maharashtra,+India&ou
     </div>
   </section>
 </Base>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((box) => box.querySelector('[data-map-load]')?.addEventListener('click', () => {
+    const f = document.createElement('iframe'); f.title = 'Map of Navi Mumbai, Maharashtra'; f.src = box.dataset.map!; f.loading = 'lazy'; f.referrerPolicy = 'no-referrer-when-downgrade'; f.allowFullscreen = true;
+    box.textContent = ''; box.appendChild(f);
+  }));
+</script>
 <style>
   .contact { display: grid; gap: var(--space-8); }
   @media (min-width: 960px) { .contact { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: var(--space-9); align-items: start; } .contact__form { order: 2; } }
+  @media (max-width: 959px) { .contact__form { order: -1; } }
   .contact__list { display: grid; gap: var(--space-5); margin: 0; }
   .contact__list dd { margin: 4px 0 0; }
   .contact__list a.heading-s:hover { color: var(--text-accent); }
-  .map { margin-top: var(--space-6); aspect-ratio: 4 / 3; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-default); filter: grayscale(1) contrast(1.05); }
-  .map iframe { width: 100%; height: 100%; border: 0; }
+  .map { margin-top: var(--space-6); aspect-ratio: 4 / 3; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-default);  }
+  .map :global(iframe) { width: 100%; height: 100%; border: 0; }
+  .map__load { width: 100%; height: 100%; display: grid; place-content: center; gap: 4px; border: 0; cursor: pointer; background: radial-gradient(rgba(22,26,51,.12) 1px, transparent 1px) 0 0 / 18px 18px, var(--milk-100); color: var(--text-primary); }
+  .map__load:hover { background-color: var(--milk-200); }
   .contact__form { display: grid; gap: var(--space-5); }
 </style>

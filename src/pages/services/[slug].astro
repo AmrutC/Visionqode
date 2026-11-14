@@ -78,7 +78,7 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
         <ul role="list" class="tech__list">{service.tech.map((t, i) => <li class={`pill ${['dot-blue','dot-navy','dot-gold'][i % 3]}`}>{t}</li>)}</ul>
         {relevantIndustries.length > 0 && (
           <>
-            <h3 class="heading-s text-muted">Where we have applied it</h3>
+            <h3 class="heading-s text-muted">Where it fits</h3>
             <ul role="list" class="tech__list label-m">{relevantIndustries.map((i) => <li><a href={`/industries#${i.slug}`}>{i.name}</a></li>)}</ul>
           </>
         )}

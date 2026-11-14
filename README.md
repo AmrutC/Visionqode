@@ -13,6 +13,15 @@ Design source of truth: Figma file **“Visionqode — Website Redesign 2026”*
 - **Components:** floating glass nav with Services menu, navy pill button with gold arrow chip, spotlight cards, bento grid, scroll-linked process timeline (`[data-process]`), inset rounded navy bands (`.band`), footer wordmark.
 - **Motion:** word-by-word heading reveals, native cross-page view transitions, animated `<details>`, cursor tilt on the dashboard, count-ups, parallax. All transform/opacity; all disabled under `prefers-reduced-motion`.
 
+## Expert review pass (v4)
+
+Four specialist reviews (visual, motion, UX/conversion, technical) were run against v3; this is what changed.
+
+- **Bugs fixed:** canonicals no longer end in `.html`; favicon restored; form error colours defined; mobile menu and Services dropdown are keyboard-accessible (Escape, focus return, `aria-expanded`); dropdown no longer clips at laptop widths; KPI values and feed render without JS; `#faq` and `#contact` anchors exist.
+- **Motion:** card grids now stagger child by child; process section pins and scrubs on desktop (`[data-pin]`, 230vh); intro statement lights up word by word on scroll and the hero board eases out (CSS `animation-timeline`, static fallback); looping animations pause off-screen.
+- **Visual:** deeper navy, CTA flows into the footer, one icon-tile style, text row instead of pill clouds, three-line hero headline sized to its column, lighter intro statement, plain columns for "How we work differently".
+- **Trust:** Work left the nav and homepage until a case study is approved; replaced by "What you hold before you sign anything". `.needs-approval` content shows in `npm run dev` and is hidden in production builds. Form has an optional phone field and hands off to WhatsApp when no endpoint is set. Google Map loads on click.
+
 ## Commands
 
 ```bash
@@ -64,6 +73,7 @@ Remove `noindex` by deleting the `noindex` prop on the page's `<Base>` and the s
 - `sitemap-index.xml` generated at build (placeholder pages excluded); `robots.txt` points to it.
 - Canonicals without trailing slash; `trailingSlash: 'never'` + `build.format: 'file'` produce `/about.html` served at `/about` by most hosts. On Apache/cPanel add to `.htaccess`:
   ```
+  DirectorySlash Off
   RewriteEngine On
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}.html -f
@@ -74,6 +84,6 @@ Remove `noindex` by deleting the `noindex` prop on the page's `<Base>` and the s
 
 ## Lighthouse (mobile, local build)
 
-Home 98 / 100 / 100 / 100 · Service page 99 / 100 / 100 / 100 · Contact 100 / 100 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.7 s on throttled mobile, CLS 0.
+Home 99 / 100 / 100 / 100 · Service page 100 / 100 / 100 / 100 · Contact 100 / 100 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.7 s on throttled mobile, CLS 0.
 
 The KPI board on the homepage shows **demo data** (labelled on the board). Replace with real, approved figures or keep as a product preview.
