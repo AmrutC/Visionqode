@@ -3,7 +3,8 @@ import Breadcrumbs from './Breadcrumbs.astro';
 interface Props { title: string; lede?: string; crumbs?: { name: string; href: string }[]; eyebrow?: string; theme?: 'light' | 'ink' }
 const { title, lede, crumbs = [], eyebrow, theme = 'light' } = Astro.props;
 ---
-<section class="page-head" data-theme={theme === 'ink' ? 'ink' : undefined}>
+<section class="page-head" data-theme="navy" data-nav-dark data-zone>
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="container page-head__inner">
     {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
     <div class="page-head__text">
@@ -15,9 +16,8 @@ const { title, lede, crumbs = [], eyebrow, theme = 'light' } = Astro.props;
   </div>
 </section>
 <style>
-  .page-head { position: relative; overflow: hidden; margin-top: calc(var(--nav-h) * -1); background: var(--white); color: var(--text-primary); padding-block: calc(var(--nav-h) + clamp(28px, 4vw, 48px)) clamp(36px, 5vw, 60px); }
-  .page-head::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 80% at 85% 0%, rgba(92,178,255,.28), transparent 70%), radial-gradient(40% 60% at 0% 100%, rgba(212,172,92,.16), transparent 70%); }
-  .page-head::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(22,26,51,.12) 1px, transparent 1px); background-size: 22px 22px; mask-image: radial-gradient(60% 90% at 80% 10%, #000, transparent 75%); -webkit-mask-image: radial-gradient(60% 90% at 80% 10%, #000, transparent 75%); }
+  .page-head { position: relative; isolation: isolate; overflow: hidden; margin-top: calc(var(--nav-h) * -1); background: var(--navy-900); color: var(--text-primary); padding-block: calc(var(--nav-h) + clamp(36px, 5vw, 72px)) clamp(48px, 6vw, 88px); border-radius: 0 0 var(--radius-xl) var(--radius-xl); }
+  .page-head__title { font-size: clamp(2.3rem, 1rem + 4.6vw, 4.75rem); letter-spacing: -0.04em; line-height: 1.02; }
   .page-head__inner { position: relative; z-index: 1; }
   .page-head__inner { display: grid; gap: var(--space-6); }
   .page-head__text { display: grid; gap: var(--space-5); }

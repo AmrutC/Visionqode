@@ -22,6 +22,15 @@ Four specialist reviews (visual, motion, UX/conversion, technical) were run agai
 - **Visual:** deeper navy, CTA flows into the footer, one icon-tile style, text row instead of pill clouds, three-line hero headline sized to its column, lighter intro statement, plain columns for "How we work differently".
 - **Trust:** Work left the nav and homepage until a case study is approved; replaced by "What you hold before you sign anything". `.needs-approval` content shows in `npm run dev` and is hidden in production builds. Form has an optional phone field and hands off to WhatsApp when no endpoint is set. Google Map loads on click.
 
+## Bold pass (v5)
+
+The homepage was rebuilt to be more cinematic; inner pages picked up the same dark header and closing section.
+
+- **Hero:** dark navy stage with drifting aurora light, a canvas particle network (`canvas[data-net]`, pauses off-screen, single static frame under reduced motion), a headline whose last line rotates through the places the software runs, and the dashboard tilting flat as you scroll.
+- **Kinetic type band**, **services as stacking panels** (`.stack` / `.panel`, sticky from 900px), **industries as a pinned horizontal gallery** (`[data-hscroll]`; pins only at ≥1000px wide and ≥820px tall with a mouse, otherwise a normal swipeable row).
+- **Navigation changes skin** over dark sections: any element with `data-nav-dark` turns the nav dark while it sits under it.
+- Still no animation libraries. Everything is transform/opacity and off under `prefers-reduced-motion`.
+
 ## Commands
 
 ```bash
@@ -84,6 +93,6 @@ Remove `noindex` by deleting the `noindex` prop on the page's `<Base>` and the s
 
 ## Lighthouse (mobile, local build)
 
-Home 99 / 100 / 100 / 100 · Service page 100 / 100 / 100 / 100 · Contact 100 / 100 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.7 s on throttled mobile, CLS 0.
+Home 96 / 100 / 100 / 100 (v5) · Service page 100 / 100 / 100 / 100 · Contact 100 / 100 / 100 / 100 (Performance / Accessibility / Best practices / SEO). LCP ≈ 1.7 s on throttled mobile, CLS 0.
 
 The KPI board on the homepage shows **demo data** (labelled on the board). Replace with real, approved figures or keep as a product preview.

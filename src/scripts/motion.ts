@@ -86,10 +86,36 @@ const nav = document.querySelector<HTMLElement>('[data-nav]');
 const progress = document.querySelector<HTMLElement>('[data-progress]');
 const timelines = Array.from(document.querySelectorAll<HTMLElement>('[data-process]'));
 const pinQuery = window.matchMedia('(min-width: 1000px) and (min-height: 640px)');
+const darkZones = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-dark]'));
+
+// ---- horizontal gallery: vertical scroll drives a pinned sideways track (desktop, motion allowed)
+const galleries = Array.from(document.querySelectorAll<HTMLElement>('[data-hscroll]')).map((el) => ({ el, track: el.querySelector<HTMLElement>('[data-hscroll-track]')!, overflow: 0 }));
+const hQuery = window.matchMedia('(min-width: 1000px) and (min-height: 820px) and (hover: hover)');
+const layoutGalleries = () => {
+  for (const g of galleries) {
+    const on = !reduced && hQuery.matches;
+    g.el.classList.toggle('is-pinned', on);
+    g.track.style.transform = '';
+    if (!on) { g.el.style.height = ''; g.overflow = 0; continue; }
+    const vp = g.track.parentElement!; const pad = parseFloat(getComputedStyle(vp).paddingLeft) || 0;
+    g.overflow = Math.max(0, g.track.scrollWidth + pad * 2 - window.innerWidth);
+    g.el.style.height = `${window.innerHeight + g.overflow}px`;
+  }
+};
+layoutGalleries();
+window.addEventListener('resize', layoutGalleries, { passive: true });
+window.addEventListener('load', layoutGalleries);
 let ticking = false;
 const frame = () => {
   const vh = window.innerHeight; const y = window.scrollY;
   nav?.classList.toggle('is-scrolled', y > 12);
+  if (nav) { let dark = false; for (const z of darkZones) { const r = z.getBoundingClientRect(); if (r.top <= 46 && r.bottom >= 46) { dark = true; break; } } nav.classList.toggle('is-dark', dark); }
+  for (const g of galleries) {
+    if (!g.overflow) continue;
+    const r = g.el.getBoundingClientRect(); const p = clamp(-r.top / Math.max(1, r.height - vh));
+    g.track.style.transform = `translate3d(${(-p * g.overflow).toFixed(1)}px, 0, 0)`;
+    g.el.style.setProperty('--hp', p.toFixed(3));
+  }
   if (progress) { const max = document.documentElement.scrollHeight - vh; progress.style.transform = `scaleX(${max > 0 ? clamp(y / max) : 0})`; }
   for (const tl of timelines) {
     const steps = tl.children; const n = steps.length;
@@ -163,3 +189,40 @@ if (toggle && links) {
   document.addEventListener('click', (e) => { if (!(e.target as Element).closest('[data-nav]')) close(); });
   window.matchMedia('(min-width: 960px)').addEventListener('change', (e) => e.matches && close());
 }
+
+// ---- hero particle network (2D canvas; pauses off-screen; static frame under reduced motion)
+document.querySelectorAll<HTMLCanvasElement>('canvas[data-net]').forEach((cv) => {
+  const ctx = cv.getContext('2d'); if (!ctx) return;
+  const zone = cv.closest<HTMLElement>('[data-zone]') ?? cv.parentElement!;
+  let w = 0, h = 0, dpr = 1; let pts: { x: number; y: number; vx: number; vy: number; r: number; g: boolean }[] = [];
+  const mouse = { x: -9999, y: -9999 };
+  const size = () => {
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5); w = cv.clientWidth; h = cv.clientHeight;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(clamp(w / 20, 28, 84));
+    pts = Array.from({ length: n }, (_, i) => ({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28, r: 1 + Math.random() * 1.6, g: i % 5 === 0 }));
+  };
+  const LINK = 150;
+  const draw = () => {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of pts) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -20) p.x = w + 20; if (p.x > w + 20) p.x = -20; if (p.y < -20) p.y = h + 20; if (p.y > h + 20) p.y = -20;
+      const dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
+      if (d2 < 26000) { p.x += dx * 0.012; p.y += dy * 0.012; }
+    }
+    for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+      const a = pts[i], b = pts[j]; const dx = a.x - b.x, dy = a.y - b.y; const d = Math.hypot(dx, dy);
+      if (d < LINK) { ctx.strokeStyle = `rgba(140,185,255,${(0.22 * (1 - d / LINK)).toFixed(3)})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+    }
+    for (const p of pts) { ctx.fillStyle = p.g ? 'rgba(212,172,92,.95)' : 'rgba(190,215,255,.7)'; ctx.beginPath(); ctx.arc(p.x, p.y, p.g ? p.r + 0.8 : p.r, 0, 6.283); ctx.fill(); }
+  };
+  let raf = 0; let visible = true;
+  const loop = () => { if (!visible) { raf = 0; return; } draw(); raf = requestAnimationFrame(loop); };
+  size(); draw();
+  window.addEventListener('resize', () => { size(); draw(); }, { passive: true });
+  if (reduced) return;
+  zone.addEventListener('pointermove', (e) => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+  zone.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !raf) raf = requestAnimationFrame(loop); }).observe(cv);
+});
